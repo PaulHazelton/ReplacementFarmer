@@ -1,18 +1,18 @@
 def all_cells(action):
 	for x in range(get_world_size()):
-		process_column(action)
+		_process_column(action)
 		move(East)
 
 	if (get_pos_y() != 0):
 		move(North)
 
-def process_column(action):
+def _process_column(action):
 	for y in range(get_world_size() - 1):
 		action()
-		move(north_or_south())
+		move(_north_or_south())
 	action()
 
-def north_or_south():
+def _north_or_south():
 	if (get_pos_x() % 2 == 0):
 		return North
 	else:
@@ -20,13 +20,13 @@ def north_or_south():
 
 def checkered_cells(odd_action, even_action):
 	for x in range (get_world_size()):
-		process_column_checkered(odd_action, even_action)
+		_process_column_checkered(odd_action, even_action)
 		move(East)
 
 	if (get_pos_y() != 0):
 		move(North)
 
-def process_column_checkered(odd_action, even_action):
+def _process_column_checkered(odd_action, even_action):
 	for y in range(get_world_size() - 1):
 	
 		if (get_pos_y() % 2 == get_pos_x() % 2):
@@ -34,7 +34,7 @@ def process_column_checkered(odd_action, even_action):
 		else:
 			even_action()
 	
-		move(north_or_south())
+		move(_north_or_south())
 	
 	if (get_pos_y() % 2 == get_pos_x() % 2):
 		odd_action()
