@@ -1,0 +1,13 @@
+{
+	"fsdeploy.nodes": [
+		{
+			"source": "/home/paul/Projects/ReplacementFarmer/",
+			"target": "/home/paul/.steam/steam/steamapps/compatdata/2060160/pfx/drive_c/users/steamuser/AppData/LocalLow/TheFarmerWasReplaced/TheFarmerWasReplaced/Saves/Save0/",
+			"exclude": "**/__builtins__.py",
+			"include": "**/*.py",
+			"deleteTargetOnDeploy": true
+		}
+	],
+	"fsdeploy.deployOnSave": true,
+	"fsdeploy.deployWorkspaceOnSave": false
+}
