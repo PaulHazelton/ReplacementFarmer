@@ -1,12 +1,19 @@
 import harvest_when_ready
 
-def main():
+def main(target):
 	clear()
-	while True:
-		for i in range(get_world_size()):
+
+	totalHay = num_items(Items.Hay)
+
+	print(totalHay, "/", target, "Hay")
+
+	while totalHay < target:
+		for i in range(get_world_size() - 1):
 			harvest_when_ready.main()
-			move(North)
+			move(north_or_south())
+		harvest_when_ready.main()
 		move(East)
 
-if __name__ == "__main__":
-	main()
+		totalHay = num_items(Items.Hay)
+
+	print("Got hay!")

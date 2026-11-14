@@ -3,14 +3,9 @@ import harvest_when_ready
 def main(target):
 	clear()
 
-	# targetWood = str(target)
-	# totalWood = str(num_items(Items.Wood))
-
-	# print(totalWood + "/" + targetWood + " wood")
-
 	totalWood = num_items(Items.Wood)
 
-	print(totalWood, "/", target, "wood")
+	print(totalWood, "/", target, "Wood")
 
 	while totalWood < target:
 		for i in range(get_world_size()):
