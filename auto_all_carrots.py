@@ -7,11 +7,11 @@ def main(target):
 	change_hat(Hats.Carrot_Hat)
 
 	can_afford = is_affordable()
-	if can_afford:
-		print("Rich boy")
-	else:
-		print("Poor")
-		return
+	# if can_afford:
+	# 	print("Rich boy")
+	# else:
+	# 	print("Poor")
+	# 	return
 
 	totalCarrot = num_items(Items.Carrot)
 	
@@ -19,10 +19,15 @@ def main(target):
 
 	farm_traversal.all_cells(seed)
 
-	while can_afford:
+	while can_afford and totalCarrot < target:
 		
 		farm_traversal.all_cells(plant_carrot)
 		can_afford = is_affordable()
+		totalCarrot = num_items(Items.Carrot)
+
+	if totalCarrot >= target:
+		print("Got carrots!")
+
 
 def plant_carrot():
 	harvest_when_ready.main()
