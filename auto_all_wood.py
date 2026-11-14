@@ -21,6 +21,12 @@ def tree_it_up():
 	harvest_when_ready.main()
 	plant(Entities.Tree)
 
+	water_tree()
+
+def water_tree():
+	if (get_water() < 0.5):
+		use_item(Items.Water)
+
 def bush_it_up():
 	harvest_when_ready.main()
 	plant(Entities.Bush)
