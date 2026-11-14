@@ -1,5 +1,5 @@
 import harvest_when_ready
-import on_all_cells
+import farm_traversal
 
 def main(target):
 	clear()
@@ -17,11 +17,11 @@ def main(target):
 	
 	print(totalCarrot, "/", target, "Carrot")
 
-	on_all_cells.main(seed)
+	farm_traversal.all_cells(seed)
 
 	while can_afford:
 		
-		on_all_cells.main(plant_carrot)
+		farm_traversal.all_cells(plant_carrot)
 		can_afford = is_affordable()
 
 def plant_carrot():

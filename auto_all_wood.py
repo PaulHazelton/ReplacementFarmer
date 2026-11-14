@@ -1,5 +1,5 @@
 import harvest_when_ready
-import on_all_cells
+import farm_traversal
 
 def main(target):
 	clear()
@@ -11,10 +11,15 @@ def main(target):
 	print(totalWood, "/", target, "Wood")
 
 	while totalWood < target:
-		on_all_cells.main(bush_it_up)
+		# farm_traversal.all_cells(wood_it_up)
+		farm_traversal.checkered_cells(tree_it_up, bush_it_up)
 		totalWood = num_items(Items.Wood)
 
 	print("Got wood!")
+
+def tree_it_up():
+	harvest_when_ready.main()
+	plant(Entities.Tree)
 
 def bush_it_up():
 	harvest_when_ready.main()
