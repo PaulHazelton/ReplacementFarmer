@@ -53,28 +53,53 @@ def _process_column_checkered(odd_action, even_action):
 	else:
 		even_action()
 
-# Target
+# Target Seeking
+
 def move_to(target):
+	size = get_world_size()
 	x0, y0 = get_pos_x(), get_pos_y()
 	x1, y1 = target
-	xDiff = x1 - x0
-	yDiff = y1 - y0
+	
+	xDist = _shortest_distance_to_target(x0, x1, size)
+	yDist = _shortest_distance_to_target(y0, y1, size)
 
 	xDir = East
-	if (xDiff < 0):
+	if (xDist < 0):
 		xDir = West
-		xDiff = -xDiff
 
 	yDir = North
-	if (yDiff < 0):
+	if (yDist < 0):
 		yDir = South
-		yDiff = -yDiff
 
-	for _ in range(xDiff):
+	for _ in range(abs(xDist)):
 		move(xDir)
 
-	for _ in range(yDiff):
+	for _ in range(abs(yDist)):
 		move(yDir)
+
+# Input: pos: scaler value (x or y) of position
+# Input: target: scaler value (x or y) of target
+# Input: size: scaler value, size of world
+# Returns: int. Shortest distance to target, considering world wrapping.
+# Positive indicated North or East, Negative indicates South or West
+def _shortest_distance_to_target(pos, target, size):
+	# Straight path (positive or neg)
+	dist = target - pos
+
+	# Wrapping path (positive or neg)
+	## Wrap off the right
+	if target < pos:
+		wrapDist = (size + target) - pos
+	## Wrap off the left
+	else:
+		wrapDist = -(pos - (target - size))
+
+	# Straight path is shorter
+	if abs(dist) < abs(wrapDist):
+		return dist
+	# Wrapping path is shorter
+	else:
+		return wrapDist
 
 # Shared
 

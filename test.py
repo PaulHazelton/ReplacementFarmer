@@ -8,24 +8,19 @@ import text_util
 
 def main():
 
-	# clear()
-	#auto_all_grass.main(10000)
-	#auto_all_wood.main(10000)
-	#auto_all_carrots.main(1000)
-	auto_pumpkins.main(2000)
+	clear()
+	do_a_flip()
 
-	# clear()
-	# till()
-	# plant(Entities.Pumpkin)
+	farm_traversal.move_to((5, 5))
+	do_a_flip()
+	farm_traversal.move_to((0, 0))
+	do_a_flip()
+	farm_traversal.move_to((5, 0))
+	do_a_flip()
+	farm_traversal.move_to((0, 5))
+	do_a_flip()
 
-	# wait_for_growth()
-
-	# print("done!")
-
-def wait_for_growth():
-	done = False
-	while done == False:
-		done = get_entity_type() == Entities.Dead_Pumpkin or can_harvest() == True
+	return
 
 if __name__ == "__main__":
 	main()
