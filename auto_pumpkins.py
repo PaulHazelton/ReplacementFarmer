@@ -1,6 +1,7 @@
 import harvest_when_ready
 import farm_traversal
 import text_util
+import debug
 
 def main(target):
 	clear()
@@ -33,11 +34,28 @@ def pumpkin_it_up():
 
 	farm_traversal.all_cells_stateful(replant_dead_pumpkin, dead_pumpkins)
 
-	text_util.print_list(dead_pumpkins)
+	while len(dead_pumpkins) > 0:
 
+		# do_a_flip()
+		# print(len(dead_pumpkins), "spots to check")
+
+		new_dead_pumps = []
+		for target in dead_pumpkins:
+
+			farm_traversal.move_to(target)
+			
+			if (get_entity_type() == Entities.Dead_Pumpkin):
+				# do_a_flip()
+				plant(Entities.Pumpkin)
+				new_dead_pumps.append((get_pos_x(), get_pos_y()))
+			else:
+				quick_print("At", debug.pos_string(), "dead pump is good now")
+
+		dead_pumpkins = new_dead_pumps
+
+	print("Done???????")
 	# farm_traversal.all_cells(harvest_or_skip)
 
-	clear()
 
 def replant_dead_pumpkin(list):
 	if (get_entity_type() == Entities.Dead_Pumpkin):
