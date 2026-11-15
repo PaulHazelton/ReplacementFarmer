@@ -7,12 +7,9 @@ def main(target):
 	change_hat(Hats.Carrot_Hat)
 
 	can_afford = is_affordable()
-	# if can_afford:
-	# 	print("Rich boy")
-	# else:
-	# 	print("Poor")
-	# 	return
-
+	if can_afford == False:
+		return
+	
 	totalCarrot = num_items(Items.Carrot)
 	
 	print(totalCarrot, "/", target, "Carrot")

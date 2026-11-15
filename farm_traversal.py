@@ -12,6 +12,20 @@ def _process_column(action):
 		move(_north_or_south())
 	action()
 
+def all_cells_stateful(action, state):
+	for x in range(get_world_size()):
+		_process_column_stateful(action, state)
+		move(East)
+
+	if (get_pos_y() != 0):
+		move(North)
+
+def _process_column_stateful(action, state):
+	for y in range(get_world_size() - 1):
+		action(state)
+		move(_north_or_south())
+	action(state)
+
 def _north_or_south():
 	if (get_pos_x() % 2 == 0):
 		return North

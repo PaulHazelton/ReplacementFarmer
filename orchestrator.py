@@ -2,9 +2,9 @@ import auto_all_grass
 import auto_all_wood
 import auto_all_carrots
 
-hayTarget = 2000
-woodTarget = 2000
-carrotTarget = 2000
+hayTarget = 10000
+woodTarget = 10000
+carrotTarget = 10000
 
 def main():
 
