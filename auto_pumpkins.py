@@ -42,8 +42,7 @@ def pumpkin_it_up():
 def replant_dead_pumpkin(list):
 	if (get_entity_type() == Entities.Dead_Pumpkin):
 		plant(Entities.Pumpkin)
-		#(get_pos_x(), get_pos_y())
-		list.append("dead_pump")
+		list.append((get_pos_x(), get_pos_y()))
 
 def harvest_or_skip():
 

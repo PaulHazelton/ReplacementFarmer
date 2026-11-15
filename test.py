@@ -17,9 +17,9 @@ def main():
 	#farm_traversal.checkered_cells(till)
 
 	# my_list = []
-	# my_list.append("hmm")
-	# my_list.append("hmm")
-	# my_list.append("hmm")
+	# my_list.append((1, 2))
+	# my_list.append((1, 3))
+	# my_list.append((1, 4))
 	# text_util.print_list(my_list)
 
 if __name__ == "__main__":

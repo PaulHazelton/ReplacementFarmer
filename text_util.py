@@ -1,12 +1,20 @@
 def print_list(list, name = None):
-	contents = "Printing list: ["
 
-	if (name != None):
-		contents = name + ": ["
+	if (name == None):
+		quick_print("Printing list:")
+	else:
+		quick_print(name + ":")
 	
-	for item in list:
-		contents += item + ", "
+	quick_print(list)
+
+	# contents = "Printing list: ["
+
+	# if (name != None):
+	# 	contents = name + ": ["
 	
-	contents += "]"
+	# for item in list:
+	# 	contents += item + ", "
 	
-	quick_print(contents)
+	# contents += "]"
+	
+	# quick_print(contents)
