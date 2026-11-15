@@ -11,11 +11,10 @@ def main(target):
 	print(totalWood, "/", target, "Wood")
 
 	while totalWood < target:
-		# farm_traversal.all_cells(wood_it_up)
 		farm_traversal.checkered_cells(tree_it_up, bush_it_up)
 		totalWood = num_items(Items.Wood)
 
-	print("Got wood!")
+	# print("Got wood!")
 
 def tree_it_up():
 	harvest_when_ready.main()

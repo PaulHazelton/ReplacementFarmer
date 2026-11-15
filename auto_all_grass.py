@@ -14,4 +14,4 @@ def main(target):
 		farm_traversal.all_cells(harvest_when_ready.main)
 		totalHay = num_items(Items.Hay)
 
-	print("Got hay!")
+	# print("Got hay!")

@@ -1,10 +1,12 @@
 import auto_all_grass
 import auto_all_wood
 import auto_all_carrots
+import auto_pumpkins
 
-hayTarget = 10000
-woodTarget = 10000
-carrotTarget = 10000
+hayTarget = 3000
+woodTarget = 3000
+carrotTarget = 3000
+pumpkinTarget = 3000
 
 def main():
 
@@ -19,10 +21,13 @@ def main():
 		if (num_items(Items.Carrot) < carrotTarget):
 			auto_all_carrots.main(carrotTarget)
 
+		if (num_items(Items.Pumpkin) < pumpkinTarget):
+			auto_pumpkins.main(pumpkinTarget)
+
 	print("All Targets Met!")
 
 def all_targets_met():
-	return (num_items(Items.Hay) >= hayTarget) and (num_items(Items.Wood) >= woodTarget) and (num_items(Items.Carrot) >= carrotTarget)
+	return (num_items(Items.Hay) >= hayTarget) and (num_items(Items.Wood) >= woodTarget) and (num_items(Items.Carrot) >= carrotTarget) and (num_items(Items.Pumpkin) >= pumpkinTarget)
 
 if __name__ == "__main__":
 	main()

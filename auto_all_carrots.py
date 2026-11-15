@@ -22,8 +22,8 @@ def main(target):
 		can_afford = is_affordable()
 		totalCarrot = num_items(Items.Carrot)
 
-	if totalCarrot >= target:
-		print("Got carrots!")
+	# if totalCarrot >= target:
+	# 	print("Got carrots!")
 
 
 def plant_carrot():

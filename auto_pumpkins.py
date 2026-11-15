@@ -26,7 +26,7 @@ def main(target):
 		can_afford = _is_affordable()
 		totalPumpkin = num_items(Items.Pumpkin)
 
-	print("Got pumpkins!")
+	# print("Got pumpkins!")
 
 def _is_affordable():
 	totalCarrots = num_items(Items.Carrot)
