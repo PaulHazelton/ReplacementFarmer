@@ -3,10 +3,10 @@ import auto_all_wood
 import auto_all_carrots
 import auto_pumpkins
 
-hayTarget = 3000
-woodTarget = 3000
-carrotTarget = 3000
-pumpkinTarget = 3000
+hayTarget = 128000
+woodTarget = 128000
+carrotTarget = 128000
+pumpkinTarget = 128000
 
 def main():
 

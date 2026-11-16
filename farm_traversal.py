@@ -108,3 +108,20 @@ def _north_or_south():
 		return North
 	else:
 		return South
+
+# Tests
+
+def Test():
+	# clear()
+	# do_a_flip()
+
+	# farm_traversal.move_to((5, 5))
+	# do_a_flip()
+	# farm_traversal.move_to((0, 0))
+	# do_a_flip()
+	# farm_traversal.move_to((5, 0))
+	# do_a_flip()
+	# farm_traversal.move_to((0, 5))
+	# do_a_flip()
+
+	return
