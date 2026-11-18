@@ -55,6 +55,10 @@ def _process_column_checkered(odd_action, even_action):
 
 # Target Seeking
 
+def go_home():
+	move_to((0, 0))
+	return
+
 def move_to(target):
 	size = get_world_size()
 	x0, y0 = get_pos_x(), get_pos_y()

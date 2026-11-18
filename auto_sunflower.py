@@ -4,63 +4,77 @@ import wait_utils
 import text_util
 import debug
 
-def main() -> None:
+def main(target_power: int) -> None:
+
+	if (num_items(Items.Power) >= target_power):
+		return
+
+	# Constants ----
+	min_sunflowers = 10
 
 	# Setup ----
 	clear()
-	change_hat(Hats.Purple_Hat)
+	change_hat(Hats.Sunflower_Hat)
 
 	size = get_world_size()
 	area = size * size
 	coord_petal_dict: dict[tuple[int, int], int] = {}
 
-	farm_traversal.all_cells_stateful(seed, coord_petal_dict)
-	flowers_left = area
+	farm_traversal.all_cells_stateful(_seed, coord_petal_dict)
+	
+	_harvest_all_but_min(coord_petal_dict, area, min_sunflowers)
 
-	# Harvest ----
+	# Loop ----
 
-	best_flowers = find_best_flowers(coord_petal_dict)
-
-	while (flowers_left - len(best_flowers)) >= 10:
-
-		while len(best_flowers) > 0:
-			next_flower_coord = seek_harvestable_flower(best_flowers)
-			harvest()
-			best_flowers.remove(next_flower_coord)
-			coord_petal_dict.pop(next_flower_coord)
-			flowers_left -= 1
-		
-		best_flowers = find_best_flowers(coord_petal_dict)
-
-		# for coord in best_flowers:
-		# 	farm_traversal.move_to(coord)
-		# 	harvest_when_ready.main()
-		# 	coord_petal_dict.pop(coord)
-		# 	flowers_left -= 1
-
-	# for i in range(area - 10):
-		# best_flower_coord = pop_max(coord_petal_dict)
-		# farm_traversal.move_to(best_flower_coord)
-		# harvest_when_ready.main()
-		# plant(Entities.Sunflower)
-		# coord_petal_dict[(get_pos_x(), get_pos_y())] = measure() # type: ignore
+	while num_items(Items.Power) < target_power:
+		farm_traversal.go_home()
+		farm_traversal.all_cells_stateful(_replant, coord_petal_dict)
+		_harvest_all_but_min(coord_petal_dict, area, min_sunflowers)
 
 	# Debug
 	quick_print("There are", len(coord_petal_dict), "flowers left")
 
 	return
 
-def seed(dict: dict[tuple[int, int], int]) -> None:
+# Main Functions
+
+def _seed(dict: dict[tuple[int, int], int]) -> None:
 	till()
 	plant(Entities.Sunflower)
 	dict[(get_pos_x(), get_pos_y())] = measure() # type: ignore
 	return
 
-def harvest() -> None:
-	harvest_when_ready.main()
+def _harvest_all_but_min(coord_petal_dict: dict[tuple[int, int], int], area: int, min: int):
+	flowers_left = area
+	best_flowers = _find_best_flowers(coord_petal_dict)
+
+	while (flowers_left - len(best_flowers)) >= min:
+
+		while len(best_flowers) > 0:
+			next_flower_coord = _seek_harvestable_flower(best_flowers)
+			harvest()
+			best_flowers.remove(next_flower_coord)
+			coord_petal_dict.pop(next_flower_coord)
+			flowers_left -= 1
+		
+		best_flowers = _find_best_flowers(coord_petal_dict)
 	return
 
-def seek_harvestable_flower(coords: list[tuple[int, int]]) -> tuple[int, int]:
+def _replant(dict: dict[tuple[int, int], int]) -> None:
+
+	pos = (get_pos_x(), get_pos_y())
+
+	if (pos in dict):
+		return
+
+	plant(Entities.Sunflower)
+	dict[(get_pos_x(), get_pos_y())] = measure() # type: ignore
+
+	return
+
+# Farmy Helpers
+
+def _seek_harvestable_flower(coords: list[tuple[int, int]]) -> tuple[int, int]:
 
 	while True:
 		for coord in coords:
@@ -74,7 +88,7 @@ def seek_harvestable_flower(coords: list[tuple[int, int]]) -> tuple[int, int]:
 # Mathy Helpers
 
 # Returns: coordinates of sunflower with max petals (or first with 15 petals)
-def pop_max(dict: dict[tuple[int, int], int]) -> tuple[int, int]:
+def _pop_max(dict: dict[tuple[int, int], int]) -> tuple[int, int]:
 	# For now, assume dict is not sorted.
 	# Also, we know 15 is the max number of petals
 	best_coord, max_petal = (0, 0), 0
@@ -93,8 +107,8 @@ def pop_max(dict: dict[tuple[int, int], int]) -> tuple[int, int]:
 	return best_coord
 
 # Returns: a list that holds all flowers with max petals
-def find_best_flowers(dict: dict[tuple[int, int], int]) -> list[tuple[int, int]]:
-	max_petals = max_petals_in_field(dict)
+def _find_best_flowers(dict: dict[tuple[int, int], int]) -> list[tuple[int, int]]:
+	max_petals = _max_petals_in_field(dict)
 
 	# Add all coords with max petals to list
 	best_flowers: list[tuple[int, int]] = []
@@ -106,7 +120,7 @@ def find_best_flowers(dict: dict[tuple[int, int], int]) -> list[tuple[int, int]]
 
 	return best_flowers
 
-def max_petals_in_field(dict: dict[tuple[int, int], int]) -> int:
+def _max_petals_in_field(dict: dict[tuple[int, int], int]) -> int:
 	max_petals = 0
 	for key in dict:
 		petals = dict[key]
