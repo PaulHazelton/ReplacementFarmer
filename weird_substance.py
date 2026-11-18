@@ -20,7 +20,7 @@ def main(target: int):
 	return
 
 def noop():
-    return
+	return
 
 def replant():
 	plant(Entities.Carrot)
@@ -28,12 +28,12 @@ def replant():
 	return
 
 def harvest():
-    harvest_when_ready.main()
-    return
+	harvest_when_ready.main()
+	return
 
 def is_complete(target: int) -> bool:
-    
-    return is_affordable() == False or is_target_met(target)
+	
+	return is_affordable() == False or is_target_met(target)
 
 def is_affordable() -> bool:
 	
@@ -47,5 +47,5 @@ def is_affordable() -> bool:
 	return True
 
 def is_target_met(target: int) -> bool:
-    
-    return num_items(Items.Weird_Substance) >= target
+	
+	return num_items(Items.Weird_Substance) >= target
