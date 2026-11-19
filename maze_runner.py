@@ -1,3 +1,20 @@
+# Notes
+# 
+# A node has 4 directions, each direction has one of 3 states:
+# - home: When we first discover a node going East, set West to home.
+# - new:  When we first discover a node, all possible exits (besides home) are marked as new.
+# - dead: When we return to a node going East, set West to dead.
+# 
+# We simply move "forward" until we arrive at a node
+# - If there's only 1 way to go, go that way (turn around from dead end)
+# - If there's 2 ways to go, don't go backwards (keep track of last move direction)
+#
+# When leaving a node:
+# - If there's any new paths, take the one that yields the minimum distance to treasure
+# - If there are no new paths, go home
+# 
+# ----
+
 # Constants
 directions = [North, East, South, West]
 
@@ -10,18 +27,17 @@ def main(target: int):
 	setup()
 
 	treasurePos: tuple[int, int] = measure() # type: ignore
-	maze_map: dict[tuple[int, int], int] = {}
-	maze_graph: dict[tuple[int, int], list[Direction]] = {}
+	maze_graph: dict[tuple[int, int], dict[Direction, string]] = {}
 	last_move_dir = None
 
-	mark_visited(maze_map, treasurePos)
-	mark_node(maze_graph, get_possible_moves())
+	mark_visited()
 
 	while True:
-		if (treasurePos == pos()):
+		if (treasurePos == get_current_pos()):
 			harvest()
 			break
-		last_move_dir = go_next_direction(maze_map, maze_graph, treasurePos, last_move_dir)
+		
+		last_move_dir = go_next_direction(maze_graph, treasurePos, last_move_dir)
 
 	do_a_flip()
 	
@@ -29,22 +45,12 @@ def main(target: int):
 
 # Maze solving helpers
 
-def go_next_direction(maze_map: dict[tuple[int, int], int], maze_graph: dict[tuple[int, int], list[Direction]], treasurePos: tuple[int, int], last_move_dir: Direction | None) -> Direction:
+def go_next_direction(maze_graph: dict[tuple[int, int], dict[Direction, string]], treasurePos: tuple[int, int], last_move_dir: Direction | None) -> Direction:
 
-	# There's only 4 possible directions
-	# Take the first accessible one that is closer distance
-
-	# Direction to move; distance
-	possible_moves: list[Direction] = get_possible_moves()
-
- 	# and (pos_plus(dir) in maze_map) == False
-	if (len(possible_moves) > 2): # type: ignore
-		mark_node(maze_graph, possible_moves)
-
-	best_dir = best_move(possible_moves, treasurePos, last_move_dir)
+	best_dir = best_move(maze_graph, treasurePos, last_move_dir)
 
 	move(best_dir)
-	mark_visited(maze_map, treasurePos)
+	mark_visited()
 
 	return best_dir
 
@@ -58,47 +64,80 @@ def get_possible_moves() -> list[Direction]:
 	
 	return possible_moves
 
-def best_move(possible_moves: list[Direction], treasurePos: tuple[int, int], last_move_dir: Direction | None) -> Direction:
+def best_move(maze_graph: dict[tuple[int, int], dict[Direction, string]], treasurePos: tuple[int, int], last_move_dir: Direction | None) -> Direction:
 
+	pos = get_current_pos()
+
+	# Which moves are physically possible
+	possible_moves: list[Direction] = get_possible_moves()
 	num_of_possible_moves = len(possible_moves)
 
 	if (num_of_possible_moves == 0):
 		throw("best_move found no possible move!")
 
+	# One way to go (dead end)
 	if (num_of_possible_moves == 1):
 		return possible_moves[0]
 
-	# First move and >= 2 options
-	if (last_move_dir == None):
-		return min_dist_move(possible_moves, treasurePos)
+	# Two ways to go, don't go backwards
+	if (num_of_possible_moves == 2):
+		
+		# First move ever, go close to treasure
+		if (last_move_dir == None):
+			return min_dist_move(possible_moves, treasurePos)
 
-	# Don't go where you just came from
-	# Should only be 1, 2, or 3 sensable moves (2, 3, or 4 possible moves, with one removed)
-	sensable_moves = possible_moves_but_not_backwards(possible_moves, last_move_dir)
+		# Don't go backwards
+		came_from = opposite(last_move_dir)
+		if (possible_moves[0] == came_from):
+			return possible_moves[1]
+		else:
+			return possible_moves[0]
+		# for dir in possible_moves:
+		# 	if (dir != came_from):
+		# 		return dir
+	# end if
 
-	num_sensable_moves = len(sensable_moves)
+	# num_of_possible_moves >= 3, this is a node ----
 
-	if (num_sensable_moves == 1):
-		return sensable_moves[0]
+ 	# Mark new node
+	if ((pos in maze_graph) == False):
+		mark_new_node(maze_graph, possible_moves, last_move_dir)
+	# Update existing node
+	else:
+		update_node(maze_graph, last_move_dir)
 
-	# 2 or 3 sensable moves, random for now.
-	move_index: int = random() * num_sensable_moves // 1 #type: ignore
-	return sensable_moves[move_index]
+	node = maze_graph[pos]
 
-# Don't go where you just came from
-# Returns another list of possible moves, but with one direction removed
-# Must have at least 2 possible moves when calling this
-def possible_moves_but_not_backwards(possible_moves: list[Direction], last_move_dir: Direction) -> list[Direction]:
-	
-	sensable_moves: list[Direction] = []
+	return leave_node(node, treasurePos)
 
-	came_from = opposite(last_move_dir)
+def leave_node(node: dict[Direction, string], treasurePos: tuple[int, int]) -> Direction:
 
-	for dir in possible_moves:
-		if (dir != came_from):
-			sensable_moves.append(dir)
+	possible_moves: list[Direction] = []
+	home_dir: Direction | None = None
 
-	return sensable_moves
+	for dir in node:
+		label = node[dir]
+
+		if (label == "new"):
+			possible_moves.append(dir)
+		elif (label == "home"):
+			home_dir = dir
+	# end for
+	num_possible_moves = len(possible_moves)
+
+	# If no new paths, go home. If no home, throw
+	if (num_possible_moves == 0):
+		if (home_dir == None):
+			throw("Can't leave node!")
+			return North
+		else:
+			return home_dir
+
+	# If there are any new paths, take best one (min distance to treasure)
+	if (num_possible_moves == 1):
+		return possible_moves[0]
+
+	return min_dist_move(possible_moves, treasurePos)
 
 # possible_moves should be at least 2
 def min_dist_move(possible_moves: list[Direction], treasurePos: tuple[int, int]) -> Direction:
@@ -117,27 +156,53 @@ def min_dist_move(possible_moves: list[Direction], treasurePos: tuple[int, int])
 
 	return best_dir #type: ignore
 
-def mark_node(maze_graph: dict[tuple[int, int], list[Direction]], possible_moves: list[Direction]) -> None:
+def mark_new_node(maze_graph: dict[tuple[int, int], dict[Direction, string]], possible_moves: list[Direction], last_move_dir: Direction | None) -> None:
 
-	quick_print("node:", pos())
+	pos = get_current_pos()
+	direction_labels: dict[Direction, string] = {}
 
-	do_a_flip()
-	# if (get_entity_type() != Entities.Carrot):
-	# 	plant(Entities.Carrot)
+	for dir in directions:
+		label: string = ""
+		
+		if (last_move_dir != None and dir == opposite(last_move_dir)):
+			label = "home"
+		elif (dir in possible_moves):
+			label = "new"
+		else:
+			label = "dead"
 
-	maze_graph[pos()] = possible_moves
+		direction_labels[dir] = label
+
+	maze_graph[pos] = direction_labels
+
+	quick_print("node:", pos, "moves:", direction_labels)
+	# till()
 
 	return
 
-def mark_visited(maze_map: dict[tuple[int, int], int], treasurePos: tuple[int, int]):
+def update_node(maze_graph: dict[tuple[int, int], dict[Direction, string]], last_move_dir: Direction | None):
+
+	if (last_move_dir == None):
+		throw("Updating existing node, but last_move_dir is None!")
+
+	pos = get_current_pos()
+	came_from = opposite(last_move_dir) # type: ignore
+
+	direction_labels: dict[Direction, string] = maze_graph[pos]
+	direction_labels[came_from] = "dead"
+
+	maze_graph[pos] = direction_labels
+
+	return
+
+def mark_visited():
 	
 	if (get_ground_type() != Grounds.Soil):
 		till()
 	
-	maze_map[pos()] = distance(pos(), treasurePos)
 	return
 
-def pos() -> tuple[int, int]:
+def get_current_pos() -> tuple[int, int]:
 	return (get_pos_x(), get_pos_y())
 
 def pos_plus(dir: Direction) -> tuple[int, int]:
@@ -162,9 +227,10 @@ def distance(a: tuple[int, int], b: tuple[int, int]) -> int:
 def setup():
 
 	clear()
+	change_hat(Hats.Gold_Hat)
 	plant(Entities.Bush)
 	use_item(Items.Weird_Substance, substance_amount())
-	
+
 	return
 
 def is_complete(target: int) -> bool:
