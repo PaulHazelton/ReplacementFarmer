@@ -46,11 +46,15 @@ def solve_maze():
 
 	mark_visited()
 
-	while treasurePos != get_current_pos():
+	while not done_solving(treasurePos):
 		
 		last_move_dir = go_next_direction(maze_graph, treasurePos, last_move_dir)
 	
 	return
+
+def done_solving(treasurePos: tuple[int, int]) -> bool:
+
+	return treasurePos == get_current_pos() or get_entity_type() != Entities.Hedge
 
 def go_next_direction(maze_graph: dict[tuple[int, int], dict[Direction, string]], treasurePos: tuple[int, int], last_move_dir: Direction | None) -> Direction:
 
@@ -259,17 +263,20 @@ def _distribute_helpers():
 	return
 
 def _leader_task(point: tuple[int, int]):
-	farm_traversal.move_to(point)
-	_build_maze()
-	solve_maze()
-	harvest()
+	while True:
+		farm_traversal.move_to(point)
+		do_a_flip()
+		_build_maze()
+		solve_maze()
+		harvest()
 	return
 
 def _drone_task(point: tuple[int, int]):
-	farm_traversal.move_to(point)
-	wait_utils.wait_until_maze_exists()
-	solve_maze()
-	harvest()
+	while True:
+		farm_traversal.move_to(point)
+		wait_utils.wait_until_maze_exists()
+		solve_maze()
+		harvest()
 	return
 
 def is_complete(target: int) -> bool:

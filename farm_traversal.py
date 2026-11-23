@@ -87,8 +87,16 @@ def move_to(target):
 
 # Generate points evenly distributed across the field
 def get_even_distributed_points(count: int) -> list[tuple[int, int]]:
-	if (count != 8):
+	
+	if (count == 8):
+		return _distribute_8()
+	elif (count == 16):
+		return _distribute_16()
+	else:
 		exceptions.throw("_even_distributed_points: count Not implimented!")
+		return None #type: ignore
+
+def _distribute_8() -> list[tuple[int, int]]:
 
 	points: list[tuple[int, int]] = []
 
@@ -106,6 +114,19 @@ def get_even_distributed_points(count: int) -> list[tuple[int, int]]:
 	points.append((s3, s2))
 	points.append((s2, s3))
 	points.append((s3, s3))
+
+	return points
+
+def _distribute_16() -> list[tuple[int, int]]:
+
+	points: list[tuple[int, int]] = []
+
+	size: int = get_world_size()
+	s = (size - 1) // 3
+
+	for i in range(4):
+		for j in range(4):
+			points.append((i * s, j * s))
 
 	return points
 
