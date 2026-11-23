@@ -15,6 +15,8 @@
 # 
 # ----
 
+import exceptions
+
 # Constants
 directions = [North, East, South, West]
 
@@ -24,26 +26,37 @@ def main(target: int):
 	if (is_complete(target)):
 		return
 
-	setup()
+	change_hat(Hats.Gold_Hat)
 
-	treasurePos: tuple[int, int] = measure() # type: ignore
-	maze_graph: dict[tuple[int, int], dict[Direction, string]] = {}
-	last_move_dir = None
+	while is_complete(target) == False:
 
-	mark_visited()
 
-	while True:
-		if (treasurePos == get_current_pos()):
-			harvest()
-			break
-		
-		last_move_dir = go_next_direction(maze_graph, treasurePos, last_move_dir)
+		setup()
+		solve_maze()
+		harvest()
+
+		# setup()
+		# use_item(Items.Weird_Substance, substance_amount())
 
 	do_a_flip()
 	
 	return
 
 # Maze solving helpers
+# Move until we find treasure
+def solve_maze():
+	
+	treasurePos: tuple[int, int] = measure() # type: ignore
+	maze_graph: dict[tuple[int, int], dict[Direction, string]] = {}
+	last_move_dir = None
+
+	mark_visited()
+
+	while treasurePos != get_current_pos():
+		
+		last_move_dir = go_next_direction(maze_graph, treasurePos, last_move_dir)
+	
+	return
 
 def go_next_direction(maze_graph: dict[tuple[int, int], dict[Direction, string]], treasurePos: tuple[int, int], last_move_dir: Direction | None) -> Direction:
 
@@ -73,7 +86,7 @@ def best_move(maze_graph: dict[tuple[int, int], dict[Direction, string]], treasu
 	num_of_possible_moves = len(possible_moves)
 
 	if (num_of_possible_moves == 0):
-		throw("best_move found no possible move!")
+		exceptions.throw("best_move found no possible move!")
 
 	# One way to go (dead end)
 	if (num_of_possible_moves == 1):
@@ -125,10 +138,10 @@ def leave_node(node: dict[Direction, string], treasurePos: tuple[int, int]) -> D
 	# end for
 	num_possible_moves = len(possible_moves)
 
-	# If no new paths, go home. If no home, throw
+	# If no new paths, go home. If no home, exceptions.throw
 	if (num_possible_moves == 0):
 		if (home_dir == None):
-			throw("Can't leave node!")
+			exceptions.throw("Can't leave node!")
 			return North
 		else:
 			return home_dir
@@ -152,7 +165,7 @@ def min_dist_move(possible_moves: list[Direction], treasurePos: tuple[int, int])
 			best_dir = dir
 
 	if (best_dir == None):
-		throw("min_dist_move found no possible move!")
+		exceptions.throw("min_dist_move found no possible move!")
 
 	return best_dir #type: ignore
 
@@ -176,14 +189,13 @@ def mark_new_node(maze_graph: dict[tuple[int, int], dict[Direction, string]], po
 	maze_graph[pos] = direction_labels
 
 	quick_print("node:", pos, "moves:", direction_labels)
-	# till()
 
 	return
 
 def update_node(maze_graph: dict[tuple[int, int], dict[Direction, string]], last_move_dir: Direction | None):
 
 	if (last_move_dir == None):
-		throw("Updating existing node, but last_move_dir is None!")
+		exceptions.throw("Updating existing node, but last_move_dir is None!")
 
 	pos = get_current_pos()
 	came_from = opposite(last_move_dir) # type: ignore
@@ -197,8 +209,8 @@ def update_node(maze_graph: dict[tuple[int, int], dict[Direction, string]], last
 
 def mark_visited():
 	
-	if (get_ground_type() != Grounds.Soil):
-		till()
+	# if (get_ground_type() != Grounds.Soil):
+	# 	till()
 	
 	return
 
@@ -227,7 +239,6 @@ def distance(a: tuple[int, int], b: tuple[int, int]) -> int:
 def setup():
 
 	clear()
-	change_hat(Hats.Gold_Hat)
 	plant(Entities.Bush)
 	use_item(Items.Weird_Substance, substance_amount())
 
@@ -264,8 +275,3 @@ def opposite(dir: Direction) -> Direction:
 	if (dir == West):
 		return East
 	return North
-
-def throw(error: string):
-	while True:
-		print(error)
-		do_a_flip()
