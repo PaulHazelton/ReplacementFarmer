@@ -1,3 +1,5 @@
+import exceptions
+
 # All Cells
 
 def all_cells(action):
@@ -80,6 +82,32 @@ def move_to(target):
 
 	for _ in range(abs(yDist)):
 		move(yDir)
+
+# Multi Farming
+
+# Generate points evenly distributed across the field
+def get_even_distributed_points(count: int) -> list[tuple[int, int]]:
+	if (count != 8):
+		exceptions.throw("_even_distributed_points: count Not implimented!")
+
+	points: list[tuple[int, int]] = []
+
+	size: int = get_world_size()
+	s1: int = size - 1
+	s2: int = size // 3
+	s3: int = s2 + s2
+
+	points.append((0, 0))
+	points.append((s1, 0))
+	points.append((0, s1))
+	points.append((s1, s1))
+
+	points.append((s2, s2))
+	points.append((s3, s2))
+	points.append((s2, s3))
+	points.append((s3, s3))
+
+	return points
 
 # Input: pos: scaler value (x or y) of position
 # Input: target: scaler value (x or y) of target
