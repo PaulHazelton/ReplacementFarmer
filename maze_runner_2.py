@@ -29,6 +29,7 @@ def main(target: int):
 		return
 
 	change_hat(Hats.Gold_Hat)
+	set_world_size(4)
 
 	setup()
 

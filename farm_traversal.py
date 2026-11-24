@@ -1,4 +1,5 @@
 import exceptions
+import wait_utils
 
 # All Cells
 
@@ -86,7 +87,27 @@ def move_to(target):
 # Multi Farming
 
 # All Cells multi-farm
-def all_cells_multi(task: Callable, args) -> None:
+def all_cells_multi(task: Callable) -> None:
+
+	for _ in range(max_drones() - 1):
+		spawn_drone(_process_row, task)
+		move(North)
+
+	_process_row(task)
+	move(North)
+	wait_utils.wait_till_im_last()
+
+	return
+
+def _process_row(task: Callable):
+
+	for _ in range(get_world_size()):
+		task()
+		move(East)
+
+	return
+
+def for_each_row_multi(task: Callable, args) -> None:
 
 	for _ in range(max_drones() - 1):
 		spawn_drone(task, args)
