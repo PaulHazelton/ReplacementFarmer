@@ -11,7 +11,8 @@ def wait_forever():
 
 def wait_until_maze_exists():
 	while True:
-		if (get_entity_type() == Entities.Hedge):
+		entity = get_entity_type()
+		if (entity == Entities.Hedge or entity == Entities.Treasure):
 			break
 	return
 

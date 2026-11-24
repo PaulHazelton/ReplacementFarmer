@@ -4,6 +4,8 @@ def can_afford(entity: Entity | Item) -> bool:
 
 	if (entity == Items.Weird_Substance):
 		cost = _weird_cost()
+	elif (entity == Items.Gold):
+		cost = _gold_cost()
 	else:
 		cost = get_cost(entity) #type: ignore
 
@@ -26,6 +28,15 @@ def _weird_cost():
 	cost = get_cost(Entities.Carrot)
 	cost[Items.Fertilizer] = 1
 	return cost
+
+def _gold_cost():
+	return {Items.Weird_Substance:required_substance_amount()}
+
+def required_substance_amount():
+
+	size = get_world_size()
+	substance = size * 2**(num_unlocked(Unlocks.Mazes) - 1)
+	return substance
 
 def water_if_should():
 	if (get_water() < 0.4 and num_items(Items.Water) > 10000):
