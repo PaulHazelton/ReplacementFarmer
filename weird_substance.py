@@ -1,5 +1,6 @@
 import farm_traversal
 import harvest_when_ready
+import wait_utils
 
 def main(target: int):
 
@@ -28,7 +29,7 @@ def replant():
 	return
 
 def harvest():
-	harvest_when_ready.main()
+	wait_utils.harvest_when_ready()
 	return
 
 def is_complete(target: int) -> bool:

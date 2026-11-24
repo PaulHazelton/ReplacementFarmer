@@ -1,5 +1,6 @@
 import farm_traversal
 import harvest_when_ready
+import wait_utils
 
 def main(target):
 	clear()
@@ -11,7 +12,7 @@ def main(target):
 	print(totalHay, "/", target, "Hay")
 
 	while totalHay < target:
-		farm_traversal.all_cells(harvest_when_ready.main)
+		farm_traversal.all_cells(wait_utils.harvest_when_ready)
 		totalHay = num_items(Items.Hay)
 
 	# print("Got hay!")

@@ -1,5 +1,6 @@
 import harvest_when_ready
 import farm_traversal
+import wait_utils
 
 def main(target):
 	clear()
@@ -17,7 +18,7 @@ def main(target):
 	# print("Got wood!")
 
 def tree_it_up():
-	harvest_when_ready.main()
+	wait_utils.harvest_when_ready()
 	plant(Entities.Tree)
 
 	water_tree()
@@ -27,7 +28,7 @@ def water_tree():
 		use_item(Items.Water)
 
 def bush_it_up():
-	harvest_when_ready.main()
+	wait_utils.harvest_when_ready()
 	plant(Entities.Bush)
 
 # main(target)

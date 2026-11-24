@@ -85,6 +85,18 @@ def move_to(target):
 
 # Multi Farming
 
+# All Cells multi-farm
+def all_cells_multi(task: Callable, args) -> None:
+
+	for _ in range(max_drones() - 1):
+		spawn_drone(task, args)
+		move(North)
+
+	task(args)
+	move(North)
+
+	return
+
 # Generate points evenly distributed across the field
 def get_even_distributed_points(count: int) -> list[tuple[int, int]]:
 	

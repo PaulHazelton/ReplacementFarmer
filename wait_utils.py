@@ -21,3 +21,10 @@ def wait_till_im_last():
 		# measure()
 		continue
 	return
+
+def harvest_when_ready():
+	while True:
+		if can_harvest():
+			harvest()
+			break
+	return

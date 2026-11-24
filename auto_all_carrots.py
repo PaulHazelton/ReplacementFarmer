@@ -1,5 +1,6 @@
 import harvest_when_ready
 import farm_traversal
+import wait_utils
 
 def main(target):
 	
@@ -30,7 +31,7 @@ def plant_carrot():
 	if (can_harvest() == False):
 		water()
 
-	harvest_when_ready.main()
+	wait_utils.harvest_when_ready()
 	plant(Entities.Carrot)
 	return
 
