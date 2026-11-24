@@ -1,5 +1,6 @@
 import farm_traversal
 import exceptions
+import wait_utils
 
 def main(target: int):
 
@@ -36,11 +37,11 @@ def _vertical_sort():
 			spawn_drone(_bubble_sort_col)
 		else:
 			_bubble_sort_col()
-			_wait_till_im_last()
+			wait_utils.wait_till_im_last()
 		move(East)
 
 	_bubble_sort_col()
-	_wait_till_im_last()
+	wait_utils.wait_till_im_last()
 
 	return
 
@@ -55,11 +56,11 @@ def _plant_and_horizontal_sort():
 			spawn_drone(_plant_sort_row)
 		else:
 			_plant_sort_row()
-			_wait_till_im_last()
+			wait_utils.wait_till_im_last()
 		move(North)
 
 	_plant_sort_row()
-	_wait_till_im_last()
+	wait_utils.wait_till_im_last()
 	
 	return
 
@@ -114,11 +115,6 @@ def _plant_row():
 		plant(Entities.Cactus)
 		move(East)
 
-	return
-
-def _wait_till_im_last():
-	while num_drones() > 1:
-		do_a_flip()
 	return
 
 def _setup():

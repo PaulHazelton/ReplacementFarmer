@@ -4,21 +4,29 @@ import wait_utils
 # Returns: true if target met, false otherwise
 def run_to_target(target: int) -> bool:
 
-	if not affordance.can_afford(Entities.Sunflower):
-		return False
+	if _is_complete(target):
+		return _target_met(target)
 
 	clear()
 	change_hat(Hats.Sunflower_Hat)
 
-	_do_thing()
+	while not _is_complete(target):
+		_cycle()
 
-	return True
+	return _target_met(target)
 
-def _do_thing():
+def _target_met(target: int) -> bool:
+	return num_items(Items.Power) >= target
+
+def _is_complete(target: int) -> bool:
+	return affordance.can_afford(Entities.Sunflower) == False or _target_met(target)
+
+def _cycle():
 
 	_seed_field()
 
-	_harvest_all_with_value(15)
+	for x in [15, 14, 13, 12, 11, 10, 9, 8]:
+		_harvest_all_with_value(x)
 
 	return
 
@@ -38,7 +46,10 @@ def _seed_field():
 def _seed_row(width: int):
 
 	for _ in range(width):
-		till()
+		if (get_ground_type() != Grounds.Soil):
+			till()
+		if (get_water() < 0.5 and num_items(Items.Water) > 10000):
+			use_item(Items.Water)
 		plant(Entities.Sunflower)
 		move(East)
 
@@ -52,6 +63,8 @@ def _harvest_all_with_value(value: int):
 
 	_harvest_all_with_value_in_row(value)
 	move(North)
+
+	wait_utils.wait_till_im_last()
 
 	return
 
