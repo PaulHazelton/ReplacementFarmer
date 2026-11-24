@@ -8,7 +8,9 @@ def run_to_target(target: int) -> bool:
 
 	change_hat(Hats.Straw_Hat)
 
-	for _ in range(max_drones() - 1):
+	n = max_drones()
+
+	for _ in range(n - 1):
 		spawn_drone(_harvest_row, target)
 		move(North)
 

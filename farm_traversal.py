@@ -118,6 +118,22 @@ def for_each_row_multi(task: Callable, args) -> None:
 
 	return
 
+# Checkered Multi
+# def checkered_cells_multi(odd_action, even_action):
+
+# 	for _ in range(max_drones() - 1):
+# 		spawn_drone(_process_row, task)
+# 		move(North)
+
+# 	_process_row(task)
+# 	move(North)
+# 	wait_utils.wait_till_im_last()
+
+# 	return
+
+# def _process_row_checkered(odd_action, even_action):
+# 	return
+
 # Generate points evenly distributed across the field
 def get_even_distributed_points(count: int) -> list[tuple[int, int]]:
 	

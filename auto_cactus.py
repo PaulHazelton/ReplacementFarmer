@@ -1,6 +1,7 @@
 import farm_traversal
 import exceptions
 import wait_utils
+import affordance
 
 def main(target: int):
 
@@ -121,5 +122,8 @@ def _setup():
 	clear()
 	return
 
-def _is_complete(target: int):
+def _target_met(target: int):
 	return num_items(Items.Cactus) >= target
+
+def _is_complete(target: int):
+	return _target_met(target) or affordance.can_afford(Entities.Cactus) == False
