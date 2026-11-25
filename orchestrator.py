@@ -7,15 +7,15 @@ import auto_cactus
 import multi_weird
 import maze_cheeser
 
-mil = 1000000
-powerTarget = mil // 100 #type: ignore
-hayTarget = 10 * mil
-woodTarget = 10 * mil
-carrotTarget = 10 * mil
-pumpkinTarget = 10 * mil
-cactusTarget = 10 * mil
-weirdSubstanceTarget = 2 * mil
-goldTarget = 2 * mil
+base = 1000000
+powerTarget = base // 10 #type: ignore
+hayTarget = 10 * base
+woodTarget = 10 * base
+carrotTarget = 10 * base
+pumpkinTarget = 10 * base
+cactusTarget = 10 * base
+weirdSubstanceTarget = 10 * base
+goldTarget = 10 * base
 
 def main():
 

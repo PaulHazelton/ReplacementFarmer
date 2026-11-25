@@ -4,7 +4,7 @@ import wait_utils
 
 def run_to_target(target: int) -> bool:
 
-	if affordance.is_complete(target, Items.Weird_Substance, Items.Weird_Substance):
+	if affordance.is_complete(target, Items.Weird_Substance):
 		return affordance.target_met(Items.Weird_Substance, target)
 
 	clear()
@@ -43,7 +43,7 @@ def _plant_row(args):
 
 def _harvest_replant_row(target):
 
-	while not affordance.is_complete(target, Items.Weird_Substance, Items.Weird_Substance):
+	while not affordance.is_complete(target, Items.Weird_Substance):
 
 		if (get_pos_y() % 2 == get_pos_x() % 2):
 

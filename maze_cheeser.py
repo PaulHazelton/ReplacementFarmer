@@ -6,7 +6,7 @@ import wait_utils
 
 def run_to_target(target: int) -> bool:
 
-	if affordance.is_complete(target, Items.Gold, Items.Gold):
+	if affordance.is_complete(target, Items.Gold):
 		return affordance.target_met(Items.Gold, target)
 
 	clear()
@@ -49,17 +49,13 @@ def _leader_task(args: tuple[tuple[int, int], int]):
 	# Wait for other drones to get in position
 	do_a_flip()
 
-	while not affordance.is_complete(target, Items.Gold, Items.Gold):
-	# {
+	while not affordance.is_complete(target, Items.Gold):
 		_build_maze()
 
 		while _in_a_maze():
-		# {
 			if _over_treasure():
-				if not use_item(Items.Weird_Substance, affordance.required_substance_amount()):
+				if not use_item(Items.Weird_Substance, affordance.get_required_substance_amount()):
 					harvest()
-		# }
-	# }
 
 	clear()
 	# print("Done?")
@@ -71,7 +67,7 @@ def _drone_task(point: tuple[int, int]):
 	wait_utils.wait_until_maze_exists()
 	while True:
 		if _over_treasure():
-			if not use_item(Items.Weird_Substance, affordance.required_substance_amount()):
+			if not use_item(Items.Weird_Substance, affordance.get_required_substance_amount()):
 				harvest()
 	return
 
@@ -112,5 +108,5 @@ def _maze_exhausted() -> bool:
 
 def _build_maze():
 	plant(Entities.Bush)
-	use_item(Items.Weird_Substance, affordance.required_substance_amount())
+	use_item(Items.Weird_Substance, affordance.get_required_substance_amount())
 	return

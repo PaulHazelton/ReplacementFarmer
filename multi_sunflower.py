@@ -25,7 +25,7 @@ def _cycle():
 
 	_seed_field()
 
-	for x in [15, 14, 13, 12, 11, 10, 9, 8]:
+	for x in [15, 14, 13, 12, 11, 10, 9, 8, 7]:
 		_harvest_all_with_value(x)
 
 	return

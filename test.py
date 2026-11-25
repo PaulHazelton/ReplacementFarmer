@@ -11,7 +11,7 @@ def main():
 
 	# run_single(multi_carrots.run_to_target, 10000000)
 
-	run_single(maze_cheeser.run_to_target, num_items(Items.Gold) + 1000) #type: ignore
+	run_single(multi_grass.run_to_target, num_items(Items.Hay) + 1000) #type: ignore
 
 	return
 
