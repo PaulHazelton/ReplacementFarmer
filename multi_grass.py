@@ -1,9 +1,8 @@
 import affordance
 
-# Returns: true if target met, false otherwise
 def run_to_target(target: int) -> bool:
 
-	if _complete(target):
+	if _is_complete(target):
 		return _target_met(target)
 
 	clear()
@@ -12,6 +11,8 @@ def run_to_target(target: int) -> bool:
 	_cycle(target)
 
 	return _target_met(target)
+
+# Primary Functionality ----
 
 def _cycle(target: int):
 
@@ -25,16 +26,19 @@ def _cycle(target: int):
 
 	return
 
+# Helpers ----
+
 def _harvest_row(target: int):
 	
-	while not _complete(target):
+	while not _is_complete(target):
 		harvest()
 		move(East)
 	
 	return
 
-# Aliases
-def _complete(target: int) -> bool:
+# Aliases ----
+
+def _is_complete(target: int) -> bool:
 	return affordance.is_complete(Items.Hay, target)
 
 def _target_met(target: int) -> bool:

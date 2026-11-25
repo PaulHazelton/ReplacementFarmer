@@ -12,16 +12,11 @@ def run_to_target(target: int) -> bool:
 
 	_setup()
 
-	# while not _is_complete(target):
 	_cycle(target)
 
 	return _target_met(target)
 
-def _target_met(target: int) -> bool:
-	return num_items(Items.Wood) >= target
-
-def _is_complete(target: int) -> bool:
-	return affordance.can_afford(Entities.Tree) == False or _target_met(target)
+# Primary Functionality ----
 
 def _setup():
 
@@ -34,6 +29,8 @@ def _cycle(target: int):
 	farm_traversal.for_each_row_multi(_harvest_replant_row, target)
 
 	return
+
+# Helpers ----
 
 def _plant_row(args):
 
@@ -74,18 +71,10 @@ def _water_if_should():
 		use_item(Items.Water)
 	return
 
-# def _seed_row(width: int):
+# Aliases ----
 
-# 	for _ in range(width):
-# 		plant(Entities.Bush)
-# 		move(East)
+def _is_complete(target: int) -> bool:
+	return affordance.is_complete(Items.Wood, target)
 
-# 	return
-
-# def _harvest(width: int):
-
-# 	for _ in range(width):
-# 		plant(Entities.Bush)
-# 		move(East)
-
-# 	return
+def _target_met(target: int) -> bool:
+	return affordance.target_met(Items.Wood, target)

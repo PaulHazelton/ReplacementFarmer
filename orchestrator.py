@@ -3,7 +3,7 @@ import multi_grass
 import multi_wood
 import multi_carrots
 import multi_pumpkins
-import auto_cactus
+import multi_cactus
 import multi_weird
 import maze_cheeser
 
@@ -37,7 +37,7 @@ def main():
 			multi_pumpkins.run_to_target(pumpkinTarget)
 
 		if (num_items(Items.Cactus) < woodTarget):
-			auto_cactus.main(cactusTarget)
+			multi_cactus.run_to_target(cactusTarget)
 
 		if (num_items(Items.Weird_Substance) < weirdSubstanceTarget):
 			multi_weird.run_to_target(weirdSubstanceTarget)

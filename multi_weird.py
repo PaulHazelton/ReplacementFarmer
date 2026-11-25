@@ -4,17 +4,19 @@ import wait_utils
 
 def run_to_target(target: int) -> bool:
 
-	if affordance.is_complete(target, Items.Weird_Substance):
-		return affordance.target_met(Items.Weird_Substance, target)
+	if _is_complete(target):
+		return _target_met(target)
 
 	clear()
-	change_hat(Hats.Purple_Hat)
+	change_hat(Hats.Traffic_Cone)
 
 	_setup()
 
 	_cycle(target)
 
-	return affordance.target_met(Items.Weird_Substance, target)
+	return _target_met(target)
+
+# Primary Functionality ----
 
 def _setup():
 
@@ -27,6 +29,8 @@ def _cycle(target: int):
 	farm_traversal.for_each_row_multi(_harvest_replant_row, target)
 
 	return
+
+# Helpers ----
 
 def _plant_row(args):
 
@@ -43,7 +47,7 @@ def _plant_row(args):
 
 def _harvest_replant_row(target):
 
-	while not affordance.is_complete(target, Items.Weird_Substance):
+	while not _is_complete(target):
 
 		if (get_pos_y() % 2 == get_pos_x() % 2):
 
@@ -59,3 +63,11 @@ def _harvest_replant_row(target):
 		move(East)
 
 	return
+
+# Aliases ----
+
+def _is_complete(target: int) -> bool:
+	return affordance.is_complete(Items.Weird_Substance, target)
+
+def _target_met(target: int) -> bool:
+	return affordance.target_met(Items.Weird_Substance, target)

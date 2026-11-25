@@ -1,22 +1,22 @@
 import affordance
-import exceptions
 import farm_traversal
 import wait_utils
 
-
 def run_to_target(target: int) -> bool:
 
-	if affordance.is_complete(target, Items.Gold):
-		return affordance.target_met(Items.Gold, target)
+	if _is_complete(target):
+		return _target_met(target)
 
 	clear()
 	change_hat(Hats.Gold_Hat)
 
-	_setup(target)
+	_cycle(target)
 
-	return affordance.target_met(Items.Gold, target)
+	return _target_met(target)
 
-def _setup(target: int):
+# Primary Functionality ----
+
+def _cycle(target: int):
 
 	maze_size = _max_maze_size(max_drones())
 
@@ -26,6 +26,8 @@ def _setup(target: int):
 	_distribute_helpers(num_drones, target)
 
 	return
+
+# Helpers ----
 
 def _distribute_helpers(num_drones: int, target: int):
 
@@ -102,11 +104,15 @@ def _over_treasure() -> bool:
 
 	return get_pos_x() == x and get_pos_y() == y
 
-def _maze_exhausted() -> bool:
-
-	return measure() == None
-
 def _build_maze():
 	plant(Entities.Bush)
 	use_item(Items.Weird_Substance, affordance.get_required_substance_amount())
 	return
+
+# Aliases ----
+
+def _is_complete(target: int) -> bool:
+	return affordance.is_complete(Items.Gold, target)
+
+def _target_met(target: int) -> bool:
+	return affordance.target_met(Items.Gold, target)

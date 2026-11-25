@@ -3,7 +3,7 @@ import multi_grass
 import multi_wood
 import multi_carrots
 import multi_pumpkins
-import auto_cactus
+import multi_cactus
 import multi_weird
 import maze_cheeser
 

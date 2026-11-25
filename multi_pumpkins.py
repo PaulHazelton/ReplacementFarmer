@@ -12,10 +12,11 @@ def run_to_target(target: int) -> bool:
 
 	_setup()
 
-	while not _is_complete(target):
-		_cycle(target)
+	_cycle(target)
 
 	return _target_met(target)
+
+# Primary Functionality ----
 
 def _setup():
 
@@ -25,15 +26,19 @@ def _setup():
 
 def _cycle(target: int):
 
-	farm_traversal.for_each_row_multi(_ensure_all_grown_in_row, None)
+	while not _is_complete(target):
 
-	wait_utils.wait_till_im_last()
+		farm_traversal.for_each_row_multi(_ensure_all_grown_in_row, None)
 
-	harvest()
+		wait_utils.wait_till_im_last()
 
-	farm_traversal.go_home()
+		harvest()
+
+		farm_traversal.go_home()
 
 	return
+
+# Helpers ----
 
 def _till_row(args):
 	for _ in range(get_world_size()):
@@ -95,9 +100,10 @@ def _water_if_should(threshold: float):
 		use_item(Items.Water)
 	return
 
-# Standard Functions
-def _target_met(target: int) -> bool:
-	return num_items(Items.Pumpkin) >= target
+# Aliases ----
 
 def _is_complete(target: int) -> bool:
-	return _target_met(target) or not affordance.can_afford(Entities.Pumpkin)
+	return affordance.is_complete(Items.Pumpkin, target)
+
+def _target_met(target: int) -> bool:
+	return affordance.target_met(Items.Pumpkin, target)
