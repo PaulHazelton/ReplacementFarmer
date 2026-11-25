@@ -1,43 +1,49 @@
-import auto_all_grass
-import auto_all_wood
-import auto_all_carrots
-import auto_pumpkins
-import auto_sunflower
-import weird_substance
-import maze_runner
+import multi_sunflower
+import multi_grass
+import multi_wood
+import multi_carrots
+import multi_pumpkins
+import auto_cactus
+import multi_weird
+import maze_cheeser
 
-powerTarget = 10000
-hayTarget = 128000
-woodTarget = 128000
-carrotTarget = 128000
-pumpkinTarget = 128000
-weirdSubstanceTarget = 20000
-goldTarget = 128000
+mil = 1000000
+powerTarget = mil // 100 #type: ignore
+hayTarget = 10 * mil
+woodTarget = 10 * mil
+carrotTarget = 10 * mil
+pumpkinTarget = 10 * mil
+cactusTarget = 10 * mil
+weirdSubstanceTarget = 2 * mil
+goldTarget = 2 * mil
 
 def main():
 
 	while all_targets_met() == False:
 
 		if (num_items(Items.Power) < powerTarget):
-			auto_sunflower.main(powerTarget)
+			multi_sunflower.run_to_target(powerTarget)
 
 		if (num_items(Items.Hay) < hayTarget):
-			auto_all_grass.main(hayTarget)
+			multi_grass.run_to_target(hayTarget)
 
 		if (num_items(Items.Wood) < woodTarget):
-			auto_all_wood.main(woodTarget)
-
-		if (num_items(Items.Weird_Substance) < weirdSubstanceTarget):
-			weird_substance.main(weirdSubstanceTarget)
-
-		if (num_items(Items.Gold) < goldTarget):
-			maze_runner.main(goldTarget)
+			multi_wood.run_to_target(woodTarget)
 
 		if (num_items(Items.Carrot) < carrotTarget):
-			auto_all_carrots.main(carrotTarget)
+			multi_carrots.run_to_target(carrotTarget)
 
 		if (num_items(Items.Pumpkin) < pumpkinTarget):
-			auto_pumpkins.main(pumpkinTarget)
+			multi_pumpkins.run_to_target(pumpkinTarget)
+
+		if (num_items(Items.Cactus) < woodTarget):
+			auto_cactus.main(cactusTarget)
+
+		if (num_items(Items.Weird_Substance) < weirdSubstanceTarget):
+			multi_weird.run_to_target(weirdSubstanceTarget)
+
+		if (num_items(Items.Gold) < goldTarget):
+			maze_cheeser.run_to_target(goldTarget)
 
 	print("All Targets Met!")
 

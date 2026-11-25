@@ -13,7 +13,7 @@ def can_afford(entity: Entity | Item) -> bool:
 	area = area * area
 
 	for item in cost:
-		if num_items(item) < (cost[item] * area * 10):
+		if num_items(item) < (cost[item] * area * 2):
 			return False
 
 	return True

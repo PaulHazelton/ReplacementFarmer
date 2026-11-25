@@ -34,7 +34,7 @@ def _seed_field():
 
 	width = get_world_size()
 
-	for _ in range(max_drones() - 1):
+	for _ in range(width - 1):
 		spawn_drone(_seed_row, width)
 		move(North)
 
@@ -57,7 +57,9 @@ def _seed_row(width: int):
 
 def _harvest_all_with_value(value: int):
 
-	for _ in range(max_drones() - 1):
+	width = get_world_size()
+
+	for _ in range(width - 1):
 		spawn_drone(_harvest_all_with_value_in_row, value)
 		move(North)
 
@@ -73,6 +75,7 @@ def _harvest_all_with_value_in_row(value: int):
 	width = get_world_size()
 
 	for _ in range(width):
+		
 		if measure() == value:
 			wait_utils.wait_until_harvestable()
 			harvest()

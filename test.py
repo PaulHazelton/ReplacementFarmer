@@ -1,22 +1,26 @@
+import multi_sunflower
+import multi_grass
 import multi_wood
-import multi_pumpkins
 import multi_carrots
+import multi_pumpkins
 import auto_cactus
 import multi_weird
-import maze_runner_2
 import maze_cheeser
 
 def main():
 
-	# multi_grass.run_to_target(10000000)
-	# multi_wood.run_to_target(100000000)
-	multi_carrots.run_to_target(10000000)
-	# multi_weird.run_to_target(1000000)
-	# auto_cactus.main(10000000)
-	# maze_runner_2.main(1000000)
-	# maze_cheeser.run_to_target(1450000)
+	# run_single(multi_carrots.run_to_target, 10000000)
 
-	# multi_pumpkins.run_to_target(1000000)
+	run_single(maze_cheeser.run_to_target, num_items(Items.Gold) + 1000) #type: ignore
+
+	return
+
+def run_single(task: Callable, target: int):
+
+	if (task(target)):
+		print("Done")
+	else:
+		print("Can't Afford")
 
 	return
 

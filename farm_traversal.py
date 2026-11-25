@@ -117,7 +117,7 @@ def _process_row(task: Callable):
 
 def for_each_row_multi(task: Callable, args) -> None:
 
-	for _ in range(max_drones() - 1):
+	for _ in range(get_world_size() - 1):
 		spawn_drone(task, args)
 		move(North)
 
@@ -149,8 +149,11 @@ def get_even_distributed_points(count: int) -> list[tuple[int, int]]:
 		return _distribute_8()
 	elif (count == 16):
 		return _distribute_16()
+	elif (count == 25):
+		return _distribute_25()
 	else:
-		exceptions.throw("_even_distributed_points: count Not implimented!")
+		message = "_even_distributed_points: count of " + str(count) + " Not implimented!"
+		exceptions.throw(message)
 		return None #type: ignore
 
 def _distribute_8() -> list[tuple[int, int]]:
@@ -183,6 +186,19 @@ def _distribute_16() -> list[tuple[int, int]]:
 
 	for i in range(4):
 		for j in range(4):
+			points.append((i * s, j * s))
+
+	return points
+
+def _distribute_25() -> list[tuple[int, int]]:
+
+	points: list[tuple[int, int]] = []
+
+	size: int = get_world_size()
+	s = (size - 1) // 4
+
+	for i in range(5):
+		for j in range(5):
 			points.append((i * s, j * s))
 
 	return points

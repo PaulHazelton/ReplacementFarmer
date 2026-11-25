@@ -23,6 +23,11 @@ def wait_till_im_last():
 		continue
 	return
 
+def wait_until(predicate: Callable):
+	while not predicate():
+		continue
+	return
+
 def harvest_when_ready():
 	while True:
 		if can_harvest():
