@@ -1,5 +1,5 @@
-import affordance
-import wait_utils
+import util_afford
+import util_wait
 
 def run_to_target(target: int) -> bool:
 
@@ -64,7 +64,7 @@ def _harvest_all_with_value(value: int):
 	_harvest_all_with_value_in_row(value)
 	move(North)
 
-	wait_utils.wait_till_im_last()
+	util_wait.wait_till_im_last()
 
 	return
 
@@ -75,7 +75,7 @@ def _harvest_all_with_value_in_row(value: int):
 	for _ in range(width):
 		
 		if measure() == value:
-			wait_utils.wait_until_harvestable()
+			util_wait.wait_until_harvestable()
 			harvest()
 		move(East)
 
@@ -87,4 +87,4 @@ def _target_met(target: int) -> bool:
 	return num_items(Items.Power) >= target
 
 def _is_complete(target: int) -> bool:
-	return affordance.can_afford(Entities.Sunflower) == False or _target_met(target)
+	return util_afford.can_afford(Entities.Sunflower) == False or _target_met(target)

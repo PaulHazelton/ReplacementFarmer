@@ -1,5 +1,5 @@
-import farm_traversal
-import wait_utils
+import util_traversal
+import util_wait
 
 def main(target: int):
 
@@ -11,11 +11,11 @@ def main(target: int):
 	clear()
 	change_hat(Hats.Purple_Hat)
 
-	farm_traversal.checkered_cells(till, noop)
+	util_traversal.checkered_cells(till, noop)
  
 	while is_complete(target) == False:
-		farm_traversal.checkered_cells(replant, noop)
-		farm_traversal.checkered_cells(harvest, noop)
+		util_traversal.checkered_cells(replant, noop)
+		util_traversal.checkered_cells(harvest, noop)
 	
 	return
 
@@ -28,7 +28,7 @@ def replant():
 	return
 
 def harvest():
-	wait_utils.harvest_when_ready()
+	util_wait.harvest_when_ready()
 	return
 
 def is_complete(target: int) -> bool:

@@ -1,7 +1,7 @@
-import farm_traversal
-import wait_utils
-import text_util
-import debug
+import util_traversal
+import util_wait
+import util_text
+import util_debug
 
 def main(target_power: int) -> None:
 
@@ -19,15 +19,15 @@ def main(target_power: int) -> None:
 	area = size * size
 	coord_petal_dict: dict[tuple[int, int], int] = {}
 
-	farm_traversal.all_cells_stateful(_seed, coord_petal_dict)
+	util_traversal.all_cells_stateful(_seed, coord_petal_dict)
 	
 	_harvest_all_but_min(coord_petal_dict, area, min_sunflowers)
 
 	# Loop ----
 
 	while num_items(Items.Power) < target_power:
-		farm_traversal.go_home()
-		farm_traversal.all_cells_stateful(_replant, coord_petal_dict)
+		util_traversal.go_home()
+		util_traversal.all_cells_stateful(_replant, coord_petal_dict)
 		_harvest_all_but_min(coord_petal_dict, area, min_sunflowers)
 
 	# Debug
@@ -77,7 +77,7 @@ def _seek_harvestable_flower(coords: list[tuple[int, int]]) -> tuple[int, int]:
 
 	while True:
 		for coord in coords:
-			farm_traversal.move_to(coord)
+			util_traversal.move_to(coord)
 			if (can_harvest()):
 				return coord
 

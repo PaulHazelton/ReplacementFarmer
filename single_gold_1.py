@@ -15,7 +15,7 @@
 # 
 # ----
 
-import exceptions
+import util_exceptions
 
 # Constants
 directions = [North, East, South, West]
@@ -86,7 +86,7 @@ def best_move(maze_graph: dict[tuple[int, int], dict[Direction, string]], treasu
 	num_of_possible_moves = len(possible_moves)
 
 	if (num_of_possible_moves == 0):
-		exceptions.throw("best_move found no possible move!")
+		util_exceptions.throw("best_move found no possible move!")
 
 	# One way to go (dead end)
 	if (num_of_possible_moves == 1):
@@ -141,7 +141,7 @@ def leave_node(node: dict[Direction, string], treasurePos: tuple[int, int]) -> D
 	# If no new paths, go home. If no home, exceptions.throw
 	if (num_possible_moves == 0):
 		if (home_dir == None):
-			exceptions.throw("Can't leave node!")
+			util_exceptions.throw("Can't leave node!")
 			return North
 		else:
 			return home_dir
@@ -165,7 +165,7 @@ def min_dist_move(possible_moves: list[Direction], treasurePos: tuple[int, int])
 			best_dir = dir
 
 	if (best_dir == None):
-		exceptions.throw("min_dist_move found no possible move!")
+		util_exceptions.throw("min_dist_move found no possible move!")
 
 	return best_dir #type: ignore
 
@@ -195,7 +195,7 @@ def mark_new_node(maze_graph: dict[tuple[int, int], dict[Direction, string]], po
 def update_node(maze_graph: dict[tuple[int, int], dict[Direction, string]], last_move_dir: Direction | None):
 
 	if (last_move_dir == None):
-		exceptions.throw("Updating existing node, but last_move_dir is None!")
+		util_exceptions.throw("Updating existing node, but last_move_dir is None!")
 
 	pos = get_current_pos()
 	came_from = opposite(last_move_dir) # type: ignore

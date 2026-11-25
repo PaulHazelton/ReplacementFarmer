@@ -1,5 +1,5 @@
-import exceptions
-import wait_utils
+import util_exceptions
+import util_wait
 
 # All Cells
 
@@ -103,7 +103,7 @@ def all_cells_multi(task: Callable) -> None:
 
 	_process_row(task)
 	move(North)
-	wait_utils.wait_till_im_last()
+	util_wait.wait_till_im_last()
 
 	return
 
@@ -153,7 +153,7 @@ def get_even_distributed_points(count: int) -> list[tuple[int, int]]:
 		return _distribute_25()
 	else:
 		message = "_even_distributed_points: count of " + str(count) + " Not implimented!"
-		exceptions.throw(message)
+		util_exceptions.throw(message)
 		return None #type: ignore
 
 def _distribute_8() -> list[tuple[int, int]]:

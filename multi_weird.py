@@ -1,6 +1,6 @@
-import affordance
-import farm_traversal
-import wait_utils
+import util_afford
+import util_traversal
+import util_wait
 
 def run_to_target(target: int) -> bool:
 
@@ -20,13 +20,13 @@ def run_to_target(target: int) -> bool:
 
 def _setup():
 
-	farm_traversal.for_each_row_multi(_plant_row, None)
+	util_traversal.for_each_row_multi(_plant_row, None)
 
 	return
 
 def _cycle(target: int):
 
-	farm_traversal.for_each_row_multi(_harvest_replant_row, target)
+	util_traversal.for_each_row_multi(_harvest_replant_row, target)
 
 	return
 
@@ -54,8 +54,8 @@ def _harvest_replant_row(target):
 			if (can_harvest()):
 				harvest()
 			else:
-				affordance.water_if_should()
-				wait_utils.harvest_when_ready()
+				util_afford.water_if_should()
+				util_wait.harvest_when_ready()
 
 			plant(Entities.Carrot)
 			use_item(Items.Fertilizer)
@@ -67,7 +67,7 @@ def _harvest_replant_row(target):
 # Aliases ----
 
 def _is_complete(target: int) -> bool:
-	return affordance.is_complete(Items.Weird_Substance, target)
+	return util_afford.is_complete(Items.Weird_Substance, target)
 
 def _target_met(target: int) -> bool:
-	return affordance.target_met(Items.Weird_Substance, target)
+	return util_afford.target_met(Items.Weird_Substance, target)

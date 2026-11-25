@@ -1,6 +1,6 @@
-import affordance
-import farm_traversal
-import wait_utils
+import util_afford
+import util_traversal
+import util_wait
 
 def run_to_target(target: int) -> bool:
 
@@ -20,7 +20,7 @@ def run_to_target(target: int) -> bool:
 
 def _setup():
 
-	farm_traversal.for_each_row_multi(_till_row, None)
+	util_traversal.for_each_row_multi(_till_row, None)
 
 	return
 
@@ -28,13 +28,13 @@ def _cycle(target: int):
 
 	while not _is_complete(target):
 
-		farm_traversal.for_each_row_multi(_ensure_all_grown_in_row, None)
+		util_traversal.for_each_row_multi(_ensure_all_grown_in_row, None)
 
-		wait_utils.wait_till_im_last()
+		util_wait.wait_till_im_last()
 
 		harvest()
 
-		farm_traversal.go_home()
+		util_traversal.go_home()
 
 	return
 
@@ -58,14 +58,14 @@ def _ensure_all_grown_in_row(args):
 
 	dead_pumpkins: list[tuple[int, int]] = []
 
-	farm_traversal.all_cells_in_row(_replant_dead_pumpkin, dead_pumpkins)
+	util_traversal.all_cells_in_row(_replant_dead_pumpkin, dead_pumpkins)
 
 	while len(dead_pumpkins) > 0:
 	
 		new_dead_pumps = []
 		for target in dead_pumpkins:
 
-			farm_traversal.move_to(target)
+			util_traversal.move_to(target)
 			_wait_for_growth()
 			
 			if (get_entity_type() == Entities.Dead_Pumpkin):
@@ -103,7 +103,7 @@ def _water_if_should(threshold: float):
 # Aliases ----
 
 def _is_complete(target: int) -> bool:
-	return affordance.is_complete(Items.Pumpkin, target)
+	return util_afford.is_complete(Items.Pumpkin, target)
 
 def _target_met(target: int) -> bool:
-	return affordance.target_met(Items.Pumpkin, target)
+	return util_afford.target_met(Items.Pumpkin, target)

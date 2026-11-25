@@ -1,6 +1,6 @@
-import affordance
-import farm_traversal
-import wait_utils
+import util_afford
+import util_traversal
+import util_wait
 
 def run_to_target(target: int) -> bool:
 
@@ -31,7 +31,7 @@ def _cycle(target: int):
 
 def _distribute_helpers(num_drones: int, target: int):
 
-	points = farm_traversal.get_even_distributed_points(num_drones)
+	points = util_traversal.get_even_distributed_points(num_drones)
 
 	for i in range(num_drones - 1):
 		spawn_drone(_drone_task, points[i])
@@ -46,7 +46,7 @@ def _leader_task(args: tuple[tuple[int, int], int]):
 
 	point, target = args
 
-	farm_traversal.move_to(point)
+	util_traversal.move_to(point)
 	
 	# Wait for other drones to get in position
 	do_a_flip()
@@ -56,7 +56,7 @@ def _leader_task(args: tuple[tuple[int, int], int]):
 
 		while _in_a_maze():
 			if _over_treasure():
-				if not use_item(Items.Weird_Substance, affordance.get_required_substance_amount()):
+				if not use_item(Items.Weird_Substance, util_afford.get_required_substance_amount()):
 					harvest()
 
 	clear()
@@ -65,11 +65,11 @@ def _leader_task(args: tuple[tuple[int, int], int]):
 	return
 
 def _drone_task(point: tuple[int, int]):
-	farm_traversal.move_to(point)
-	wait_utils.wait_until_maze_exists()
+	util_traversal.move_to(point)
+	util_wait.wait_until_maze_exists()
 	while True:
 		if _over_treasure():
-			if not use_item(Items.Weird_Substance, affordance.get_required_substance_amount()):
+			if not use_item(Items.Weird_Substance, util_afford.get_required_substance_amount()):
 				harvest()
 	return
 
@@ -106,13 +106,13 @@ def _over_treasure() -> bool:
 
 def _build_maze():
 	plant(Entities.Bush)
-	use_item(Items.Weird_Substance, affordance.get_required_substance_amount())
+	use_item(Items.Weird_Substance, util_afford.get_required_substance_amount())
 	return
 
 # Aliases ----
 
 def _is_complete(target: int) -> bool:
-	return affordance.is_complete(Items.Gold, target)
+	return util_afford.is_complete(Items.Gold, target)
 
 def _target_met(target: int) -> bool:
-	return affordance.target_met(Items.Gold, target)
+	return util_afford.target_met(Items.Gold, target)

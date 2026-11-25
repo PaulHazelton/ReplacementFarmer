@@ -1,6 +1,6 @@
-import farm_traversal
-import text_util
-import debug
+import util_traversal
+import util_text
+import util_debug
 
 def main(target):
 	clear()
@@ -16,7 +16,7 @@ def main(target):
 
 	print(totalPumpkin, "/", target, "Pumpkin")
 
-	farm_traversal.all_cells(_seed)
+	util_traversal.all_cells(_seed)
 	
 	while can_afford and totalPumpkin < target:
 
@@ -35,14 +35,14 @@ def _is_affordable():
 def _pumpkin_it_up():
 	dead_pumpkins = []
 
-	farm_traversal.all_cells_stateful(_replant_dead_pumpkin, dead_pumpkins)
+	util_traversal.all_cells_stateful(_replant_dead_pumpkin, dead_pumpkins)
 
 	while len(dead_pumpkins) > 0:
 
 		new_dead_pumps = []
 		for target in dead_pumpkins:
 
-			farm_traversal.move_to(target)
+			util_traversal.move_to(target)
 			_wait_for_growth()
 			
 			if (get_entity_type() == Entities.Dead_Pumpkin):
@@ -51,9 +51,9 @@ def _pumpkin_it_up():
 
 		dead_pumpkins = new_dead_pumps
 
-	farm_traversal.move_to((0, 0))
+	util_traversal.move_to((0, 0))
 	harvest()
-	farm_traversal.all_cells(_replant)
+	util_traversal.all_cells(_replant)
 
 def _seed():
 	till()

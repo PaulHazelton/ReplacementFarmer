@@ -1,5 +1,5 @@
-import farm_traversal
-import wait_utils
+import util_traversal
+import util_wait
 
 def main(target):
 	
@@ -14,11 +14,11 @@ def main(target):
 	
 	print(totalCarrot, "/", target, "Carrot")
 
-	farm_traversal.all_cells(seed)
+	util_traversal.all_cells(seed)
 
 	while can_afford and totalCarrot < target:
 		
-		farm_traversal.all_cells(plant_carrot)
+		util_traversal.all_cells(plant_carrot)
 		can_afford = is_affordable()
 		totalCarrot = num_items(Items.Carrot)
 
@@ -30,7 +30,7 @@ def plant_carrot():
 	if (can_harvest() == False):
 		water()
 
-	wait_utils.harvest_when_ready()
+	util_wait.harvest_when_ready()
 	plant(Entities.Carrot)
 	return
 

@@ -1,5 +1,5 @@
-import farm_traversal
-import wait_utils
+import util_traversal
+import util_wait
 
 def main(target):
 	clear()
@@ -11,13 +11,13 @@ def main(target):
 	print(totalWood, "/", target, "Wood")
 
 	while totalWood < target:
-		farm_traversal.checkered_cells(tree_it_up, bush_it_up)
+		util_traversal.checkered_cells(tree_it_up, bush_it_up)
 		totalWood = num_items(Items.Wood)
 
 	# print("Got wood!")
 
 def tree_it_up():
-	wait_utils.harvest_when_ready()
+	util_wait.harvest_when_ready()
 	plant(Entities.Tree)
 
 	water_tree()
@@ -27,7 +27,7 @@ def water_tree():
 		use_item(Items.Water)
 
 def bush_it_up():
-	wait_utils.harvest_when_ready()
+	util_wait.harvest_when_ready()
 	plant(Entities.Bush)
 
 # main(target)
