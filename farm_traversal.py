@@ -56,6 +56,14 @@ def _process_column_checkered(odd_action, even_action):
 	else:
 		even_action()
 
+# Row
+
+def all_cells_in_row(action, args):
+	for x in range(get_world_size()):
+		action(args)
+		move(East)
+	return
+
 # Target Seeking
 
 def go_home():
