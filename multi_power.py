@@ -1,7 +1,6 @@
 import affordance
 import wait_utils
 
-# Returns: true if target met, false otherwise
 def run_to_target(target: int) -> bool:
 
 	if _is_complete(target):
@@ -10,25 +9,24 @@ def run_to_target(target: int) -> bool:
 	clear()
 	change_hat(Hats.Sunflower_Hat)
 
-	while not _is_complete(target):
-		_cycle()
+	_cycle(target)
 
 	return _target_met(target)
 
-def _target_met(target: int) -> bool:
-	return num_items(Items.Power) >= target
+# Primary Functionality ----
 
-def _is_complete(target: int) -> bool:
-	return affordance.can_afford(Entities.Sunflower) == False or _target_met(target)
+def _cycle(target: int):
 
-def _cycle():
+	while not _is_complete(target):
 
-	_seed_field()
+		_seed_field()
 
-	for x in [15, 14, 13, 12, 11, 10, 9, 8, 7]:
-		_harvest_all_with_value(x)
+		for x in [15, 14, 13, 12, 11, 10, 9, 8, 7]:
+			_harvest_all_with_value(x)
 
 	return
+
+# Helpers ----
 
 def _seed_field():
 
@@ -82,3 +80,11 @@ def _harvest_all_with_value_in_row(value: int):
 		move(East)
 
 	return
+
+# Aliases ----
+
+def _target_met(target: int) -> bool:
+	return num_items(Items.Power) >= target
+
+def _is_complete(target: int) -> bool:
+	return affordance.can_afford(Entities.Sunflower) == False or _target_met(target)

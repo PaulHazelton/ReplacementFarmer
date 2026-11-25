@@ -51,7 +51,7 @@ def _leader_task(args: tuple[tuple[int, int], int]):
 	# Wait for other drones to get in position
 	do_a_flip()
 
-	while not affordance.is_complete(target, Items.Gold):
+	while not _is_complete(target):
 		_build_maze()
 
 		while _in_a_maze():

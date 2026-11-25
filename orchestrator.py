@@ -1,11 +1,11 @@
-import multi_sunflower
+import multi_power
 import multi_grass
 import multi_wood
 import multi_carrots
 import multi_pumpkins
 import multi_cactus
 import multi_weird
-import maze_cheeser
+import multi_gold
 
 base = 1000000
 powerTarget = base // 10 #type: ignore
@@ -22,7 +22,7 @@ def main():
 	while all_targets_met() == False:
 
 		if (num_items(Items.Power) < powerTarget):
-			multi_sunflower.run_to_target(powerTarget)
+			multi_power.run_to_target(powerTarget)
 
 		if (num_items(Items.Hay) < hayTarget):
 			multi_grass.run_to_target(hayTarget)
@@ -43,7 +43,7 @@ def main():
 			multi_weird.run_to_target(weirdSubstanceTarget)
 
 		if (num_items(Items.Gold) < goldTarget):
-			maze_cheeser.run_to_target(goldTarget)
+			multi_gold.run_to_target(goldTarget)
 
 	print("All Targets Met!")
 
