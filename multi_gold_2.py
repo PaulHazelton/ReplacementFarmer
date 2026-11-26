@@ -65,28 +65,48 @@ def _leader_task(point: tuple[int, int], target: int):
 	
 	util_traversal.move_to(point)
 	do_a_flip()
-	util_maze.build_maze(get_world_size())
 
 	while not _is_complete(target):
-		util_maze.solve_maze()
-		_collect_treasure()
+
+		util_maze.build_maze(get_world_size())
+		
+		while util_maze.in_a_maze():
+			if util_maze.over_treasure():
+				util_maze.collect_treasure(get_world_size())
+			else: 
+				dir = util_maze.next_to_treasure()
+				if (dir != None and can_move(dir)):
+					move(dir)
+					opp = util_maze._opposite(dir)
+					if (util_maze.am_i_preferred(opp)):
+						util_maze.collect_treasure(get_world_size())
+					move(opp)
+
+		# util_maze.solve_maze()
+		# _collect_treasure()
 	
+	clear()
+
 	return
 
 def _drone_task(point: tuple[int, int]):
 	
 	util_traversal.move_to(point)
+	util_wait.wait_until_maze_exists()
 	
 	while True:
-		util_wait.wait_until_maze_exists()
-		util_maze.solve_maze()
-		_collect_treasure()
+		if util_maze.over_treasure():
+			util_maze.collect_treasure(get_world_size())
+		else: 
+			dir = util_maze.next_to_treasure()
+			if (dir != None and can_move(dir)):
+				move(dir)
+				opp = util_maze._opposite(dir)
+				if (util_maze.am_i_preferred(opp)):
+					util_maze.collect_treasure(get_world_size())
+				move(opp)
 	
 	return
-
-def _collect_treasure():
-	if not use_item(Items.Weird_Substance, util_maze.substance_amount(get_world_size())):
-		do_a_flip()
 
 # Aliases ----
 

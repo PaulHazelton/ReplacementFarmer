@@ -17,7 +17,7 @@ def main():
 	# single_gold_1.run_to_target(num_items(Items.Gold) * 2) #type: ignore
 	# single_gold_2.run_to_target(num_items(Items.Gold) * 2) #type: ignore
 	# multi_gold_1.run_to_target(num_items(Items.Gold) * 2) #type: ignore
-	multi_gold_2.run_to_target(num_items(Items.Gold) * 2) #type: ignore
+	multi_gold_2.run_to_target(num_items(Items.Gold) * 1.05) #type: ignore
 
 	# util_traversal.Test_distribute()
 

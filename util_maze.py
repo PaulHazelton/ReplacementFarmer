@@ -46,6 +46,37 @@ def over_treasure() -> bool:
 
 	return get_pos_x() == x and get_pos_y() == y
 
+def collect_treasure(maze_size: int):
+	if not use_item(Items.Weird_Substance, substance_amount(maze_size)):
+		harvest()
+
+def next_to_treasure() -> Direction | None:
+
+	treasurePos: tuple[int, int] = measure() # type: ignore
+
+	for dir in directions:
+		if (_pos_plus(dir) == treasurePos):
+			return dir
+
+	return None
+
+# Prefer in the order North, East, South, West, arbitrary
+# We are hovering over the treasure, there may be more than 1 drone on this tile.
+# Only one should harvest
+# Input: dir: direction I came from
+def am_i_preferred(came_from: Direction) -> bool:
+
+	# Go around clockwise, find the first direction we can move, that's the chosen one direction
+	# If came_from == chosen_one_direction, return True, False otherwise.
+
+	for dir in directions:
+		if (can_move(dir)):
+			return came_from == dir
+
+	# Should never get here
+	util_exceptions.throw("am_i_preferred: found closed box in maze?")
+	return False
+
 # Helpers ----
 
 def _go_next_direction(maze_graph: dict[tuple[int, int], dict[Direction, string]], treasurePos: tuple[int, int], last_move_dir: Direction | None) -> Direction:
