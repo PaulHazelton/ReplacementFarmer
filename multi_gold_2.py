@@ -1,18 +1,8 @@
 # Notes
-# 
-# A node has 4 directions, each direction has one of 3 states:
-# - home: When we first discover a node going East, set West to home.
-# - new:  When we first discover a node, all possible exits (besides home) are marked as new.
-# - dead: When we return to a node going East, set West to dead.
-# 
-# We simply move "forward" until we arrive at a node
-# - If there's only 1 way to go, go that way (turn around from dead end)
-# - If there's 2 ways to go, don't go backwards (keep track of last move direction)
-#
-# When leaving a node:
-# - If there's any new paths, take the one that yields the minimum distance to treasure
-# - If there are no new paths, go home
-# 
+# Spread drones out in a checkered pattern. Must have 2k^2 drones where k is an integer (32 is perfect)
+# Treasure is garanteed to be under a drone, or next to a drone.
+# Any drone next to treasure moves to it if it can.
+# To prevent a race condition, we use `am_i_preferred`, which prioritized based on the direction the drone came from, starting at North going clockwise.
 # ----
 
 import util_afford
