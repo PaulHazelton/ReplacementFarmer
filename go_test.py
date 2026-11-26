@@ -1,11 +1,3 @@
-import multi_power
-import multi_grass
-import multi_wood
-import multi_carrots
-import multi_pumpkins
-import multi_cactus
-import multi_weird
-import multi_gold
 import util_mappers
 
 def main():

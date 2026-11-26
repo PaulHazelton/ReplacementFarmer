@@ -1,63 +1,28 @@
-import multi_power
-import multi_grass
-import multi_wood
-import multi_carrots
-import multi_pumpkins
-import multi_cactus
-import multi_weird
-import multi_gold
 import util_mappers
+import util_targets
 
-base = 1000000
-powerTarget = base // 10 #type: ignore
-hayTarget = 10 * base
-woodTarget = 10 * base
-carrotTarget = 10 * base
-pumpkinTarget = 10 * base
-cactusTarget = 10 * base
-weirdSubstanceTarget = 10 * base
-goldTarget = 10 * base
+base = 10000000
 
 def main():
 
-	while all_targets_met() == False:
+	target_items = util_targets.get_target_items()
+	all_targets_met = False
 
-		if (num_items(Items.Power) < powerTarget):
-			multi_power.run_to_target(powerTarget)
+	while all_targets_met == False:
 
-		if (num_items(Items.Hay) < hayTarget):
-			multi_grass.run_to_target(hayTarget)
+		all_targets_met = True
 
-		if (num_items(Items.Wood) < woodTarget):
-			multi_wood.run_to_target(woodTarget)
+		for item in target_items:
+			
+			target = util_targets.get_target(item, base)
 
-		if (num_items(Items.Carrot) < carrotTarget):
-			multi_carrots.run_to_target(carrotTarget)
+			if (num_items(item) < target):
+				all_targets_met = False
+				routine = util_mappers.item_to_routine(item)
+				routine(target)
 
-		if (num_items(Items.Pumpkin) < pumpkinTarget):
-			multi_pumpkins.run_to_target(pumpkinTarget)
-
-		if (num_items(Items.Cactus) < woodTarget):
-			multi_cactus.run_to_target(cactusTarget)
-
-		if (num_items(Items.Weird_Substance) < weirdSubstanceTarget):
-			multi_weird.run_to_target(weirdSubstanceTarget)
-
-		if (num_items(Items.Gold) < goldTarget):
-			multi_gold.run_to_target(goldTarget)
-
+	clear()
 	print("All Targets Met!")
-
-def all_targets_met():
-	x = True
-	x = x and (num_items(Items.Power) >= powerTarget)
-	x = x and (num_items(Items.Hay) >= hayTarget)
-	x = x and (num_items(Items.Wood) >= woodTarget)
-	x = x and (num_items(Items.Carrot) >= carrotTarget)
-	x = x and (num_items(Items.Pumpkin) >= pumpkinTarget)
-	x = x and (num_items(Items.Weird_Substance) >= weirdSubstanceTarget)
-	x = x and (num_items(Items.Gold) >= goldTarget)
-	return x
 
 if __name__ == "__main__":
 	main()
