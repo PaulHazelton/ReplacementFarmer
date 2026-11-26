@@ -1,4 +1,6 @@
-# Constants??
+import util_mappers
+
+# Constants ----
 
 min_power = 10000
 cost_scaler = 2
@@ -32,7 +34,7 @@ def _get_cost_dict(target: Item) -> dict[Item, int]:
 	elif (target == Items.Gold):
 		return _gold_cost()
 	else:
-		return get_cost(_map_item_to_entity(target))
+		return get_cost(util_mappers.item_to_entity(target))
 
 def _weird_cost():
 	cost = get_cost(Entities.Carrot)
@@ -41,19 +43,6 @@ def _weird_cost():
 
 def _gold_cost():
 	return {Items.Weird_Substance:get_required_substance_amount()}
-
-def _map_item_to_entity(item: Item) -> Entity:
-	
-	map_dict = {
-		Items.Hay:Entities.Grass,
-		Items.Wood:Entities.Tree,
-		Items.Carrot:Entities.Carrot,
-		Items.Pumpkin:Entities.Pumpkin,
-		Items.Cactus:Entities.Cactus,
-		Items.Power:Entities.Sunflower,
-	}
-
-	return map_dict[item]
 
 # Assumes we are filling the field with a single maze
 def get_required_substance_amount():
@@ -70,6 +59,8 @@ def target_met(item: Item, target: int) -> bool:
 
 def is_complete(item: Item, target: int) -> bool:
 	return target_met(item, target) or can_afford(item) == False
+
+# Watering
 
 def water_if_should():
 	if (get_water() < 0.4 and num_items(Items.Water) > 10000):

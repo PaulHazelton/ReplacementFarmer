@@ -6,12 +6,15 @@ import multi_pumpkins
 import multi_cactus
 import multi_weird
 import multi_gold
+import util_mappers
 
 def main():
 
-	# run_single(multi_carrots.run_to_target, 10000000)
+	test_item = Items.Power
+	target = num_items(test_item) * 1.1
+	routine = util_mappers.item_to_routine(test_item)
 
-	run_single(multi_grass.run_to_target, num_items(Items.Hay) + 1000) #type: ignore
+	run_single(routine, target) #type: ignore
 
 	return
 

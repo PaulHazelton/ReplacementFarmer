@@ -87,4 +87,4 @@ def _target_met(target: int) -> bool:
 	return num_items(Items.Power) >= target
 
 def _is_complete(target: int) -> bool:
-	return util_afford.can_afford(Entities.Sunflower) == False or _target_met(target)
+	return util_afford.can_afford(Items.Power) == False or _target_met(target)

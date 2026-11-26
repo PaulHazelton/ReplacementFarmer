@@ -6,6 +6,7 @@ import multi_pumpkins
 import multi_cactus
 import multi_weird
 import multi_gold
+import util_mappers
 
 base = 1000000
 powerTarget = base // 10 #type: ignore
