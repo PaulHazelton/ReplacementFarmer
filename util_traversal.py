@@ -151,6 +151,8 @@ def get_even_distributed_points(count: int) -> list[tuple[int, int]]:
 		return _distribute_16()
 	elif (count == 25):
 		return _distribute_25()
+	elif (count == 32):
+		return _distribute_32()
 	else:
 		message = "_even_distributed_points: count of " + str(count) + " Not implimented!"
 		util_exceptions.throw(message)
@@ -203,6 +205,23 @@ def _distribute_25() -> list[tuple[int, int]]:
 
 	return points
 
+def _distribute_32() -> list[tuple[int, int]]:
+
+	points: list[tuple[int, int]] = []
+
+	size: int = get_world_size()
+	s = (size - 1) // 7
+
+	for x in range(8):
+		if (x % 2 == 0):
+			for y in range(4):
+				points.append((x * s, y * 2 * s))
+		else:
+			for y in range(4):
+				points.append((x * s, s // 2 + (y * 2 * s)))
+
+	return points
+
 # Input: pos: scaler value (x or y) of position
 # Input: target: scaler value (x or y) of target
 # Input: size: scaler value, size of world
@@ -237,17 +256,36 @@ def _north_or_south():
 
 # Tests
 
-def Test():
-	# clear()
-	# do_a_flip()
+def Test_move_to():
+	clear()
+	do_a_flip()
 
-	# farm_traversal.move_to((5, 5))
-	# do_a_flip()
-	# farm_traversal.move_to((0, 0))
-	# do_a_flip()
-	# farm_traversal.move_to((5, 0))
-	# do_a_flip()
-	# farm_traversal.move_to((0, 5))
-	# do_a_flip()
+	move_to((5, 5))
+	do_a_flip()
+	move_to((0, 0))
+	do_a_flip()
+	move_to((5, 0))
+	do_a_flip()
+	move_to((0, 5))
+	do_a_flip()
+
+	return
+
+def Test_distribute():
+	
+	def _task(point: tuple[int, int]):
+		move_to(point)
+		util_wait.wait_forever()
+		return
+	
+	clear()
+
+	n = max_drones()
+	points = get_even_distributed_points(n)
+
+	for i in range(n - 1):
+		spawn_drone(_task, points[i])
+
+	_task(points[n - 1])
 
 	return

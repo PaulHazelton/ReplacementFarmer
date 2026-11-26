@@ -1,6 +1,7 @@
 import util_afford
 import util_traversal
 import util_wait
+import util_maze
 
 def run_to_target(target: int) -> bool:
 
@@ -56,7 +57,7 @@ def _leader_task(args: tuple[tuple[int, int], int]):
 
 		while _in_a_maze():
 			if _over_treasure():
-				if not use_item(Items.Weird_Substance, util_afford.get_required_substance_amount()):
+				if not use_item(Items.Weird_Substance, util_maze.substance_amount(5)):
 					harvest()
 
 	clear()
@@ -69,7 +70,7 @@ def _drone_task(point: tuple[int, int]):
 	util_wait.wait_until_maze_exists()
 	while True:
 		if _over_treasure():
-			if not use_item(Items.Weird_Substance, util_afford.get_required_substance_amount()):
+			if not use_item(Items.Weird_Substance, util_maze.substance_amount(5)):
 				harvest()
 	return
 
@@ -106,7 +107,7 @@ def _over_treasure() -> bool:
 
 def _build_maze():
 	plant(Entities.Bush)
-	use_item(Items.Weird_Substance, util_afford.get_required_substance_amount())
+	use_item(Items.Weird_Substance, util_maze.substance_amount(5))
 	return
 
 # Aliases ----

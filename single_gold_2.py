@@ -38,7 +38,7 @@ def run_to_target(target: int) -> bool:
 
 def _cycle(target: int):
 
-	set_world_size(4)
+	# set_world_size(4)
 
 	_distribute_helpers(target)
 
