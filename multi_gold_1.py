@@ -53,10 +53,10 @@ def _leader_task(args: tuple[tuple[int, int], int]):
 	do_a_flip()
 
 	while not _is_complete(target):
-		_build_maze()
+		util_maze.build_maze(get_world_size())
 
-		while _in_a_maze():
-			if _over_treasure():
+		while util_maze.in_a_maze():
+			if util_maze.over_treasure():
 				if not use_item(Items.Weird_Substance, util_maze.substance_amount(5)):
 					harvest()
 
@@ -69,7 +69,7 @@ def _drone_task(point: tuple[int, int]):
 	util_traversal.move_to(point)
 	util_wait.wait_until_maze_exists()
 	while True:
-		if _over_treasure():
+		if util_maze.over_treasure():
 			if not use_item(Items.Weird_Substance, util_maze.substance_amount(5)):
 				harvest()
 	return
@@ -88,27 +88,6 @@ def _max_maze_size(max_drone_count: int) -> int:
 			max_size = i
 
 	return max_size
-
-def _in_a_maze() -> bool:
-	entity = get_entity_type()
-	return (entity == Entities.Hedge or entity == Entities.Treasure)
-
-def _over_treasure() -> bool:
-
-	m = measure()
-
-	# If we're not in a maze (farm was cleared recently), measure() gives None
-	if (m == None):
-		return False
-
-	x, y = m #type: ignore
-
-	return get_pos_x() == x and get_pos_y() == y
-
-def _build_maze():
-	plant(Entities.Bush)
-	use_item(Items.Weird_Substance, util_maze.substance_amount(5))
-	return
 
 # Aliases ----
 

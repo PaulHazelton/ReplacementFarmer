@@ -30,6 +30,22 @@ def solve_maze():
 	
 	return
 
+def in_a_maze() -> bool:
+	entity = get_entity_type()
+	return (entity == Entities.Hedge or entity == Entities.Treasure)
+
+def over_treasure() -> bool:
+
+	m = measure()
+
+	# If we're not in a maze (farm was cleared recently), measure() gives None
+	if (m == None):
+		return False
+
+	x, y = m #type: ignore
+
+	return get_pos_x() == x and get_pos_y() == y
+
 # Helpers ----
 
 def _go_next_direction(maze_graph: dict[tuple[int, int], dict[Direction, string]], treasurePos: tuple[int, int], last_move_dir: Direction | None) -> Direction:

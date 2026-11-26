@@ -152,7 +152,7 @@ def get_even_distributed_points(count: int) -> list[tuple[int, int]]:
 	elif (count == 25):
 		return _distribute_25()
 	elif (count == 32):
-		return _distribute_32()
+		return _distribute_32_size_8()
 	else:
 		message = "_even_distributed_points: count of " + str(count) + " Not implimented!"
 		util_exceptions.throw(message)
@@ -205,7 +205,21 @@ def _distribute_25() -> list[tuple[int, int]]:
 
 	return points
 
-def _distribute_32() -> list[tuple[int, int]]:
+def _distribute_32_size_8() -> list[tuple[int, int]]:
+
+	points: list[tuple[int, int]] = []
+
+	for x in range(8):
+		y_offset = 0
+		if (x % 2 == 1):
+			y_offset = 1
+
+		for y in range(4):
+			points.append((x, y_offset + y * 2))
+
+	return points
+
+def _distribute_32_big() -> list[tuple[int, int]]:
 
 	points: list[tuple[int, int]] = []
 
@@ -279,6 +293,7 @@ def Test_distribute():
 		return
 	
 	clear()
+	set_world_size(8)
 
 	n = max_drones()
 	points = get_even_distributed_points(n)
