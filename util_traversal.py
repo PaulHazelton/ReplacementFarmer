@@ -215,10 +215,10 @@ def _distribute_32() -> list[tuple[int, int]]:
 	for x in range(8):
 		if (x % 2 == 0):
 			for y in range(4):
-				points.append((x * s, y * 2 * s))
+				points.append((1 + x * s, 1 + y * 2 * s))
 		else:
 			for y in range(4):
-				points.append((x * s, s // 2 + (y * 2 * s)))
+				points.append((1 + x * s, 1 + s + (y * 2 * s)))
 
 	return points
 

@@ -5,17 +5,14 @@ import util_traversal
 
 def main():
 
-	# test_item = Items.Pumpkin
+	# test_item = Items.Cactus
 	# target = num_items(test_item) * 2
 	# routine = util_mappers.item_to_routine(test_item)
 
 	# run_single(routine, target) #type: ignore
 
-	# single_grass.main(20000000)
 	# single_gold_1.run_to_target(num_items(Items.Gold) * 2) #type: ignore
 	single_gold_2.run_to_target(num_items(Items.Gold) * 2) #type: ignore
-
-	# util_traversal.Test_distribute()
 
 	return
 
