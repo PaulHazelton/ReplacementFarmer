@@ -1,4 +1,5 @@
 import util_mappers
+import util_maze
 
 # Constants ----
 
@@ -41,16 +42,10 @@ def _weird_cost():
 	cost[Items.Fertilizer] = 1
 	return cost
 
-def _gold_cost():
-	return {Items.Weird_Substance:get_required_substance_amount()}
-
 # Assumes we are filling the field with a single maze
-def get_required_substance_amount():
+def _gold_cost():
+	return {Items.Weird_Substance:util_maze.substance_amount(get_world_size())}
 
-	size = get_world_size()
-	substance = size * 2**(num_unlocked(Unlocks.Mazes) - 1)
-	
-	return substance
 
 # Target / Complete (keep?) ----
 

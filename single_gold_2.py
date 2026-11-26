@@ -15,6 +15,7 @@
 # 
 # ----
 
+import util_maze
 import util_traversal
 import util_wait
 import util_exceptions
@@ -244,12 +245,6 @@ def setup():
 
 	return
 
-def _build_maze():
-
-	plant(Entities.Bush)
-	use_item(Items.Weird_Substance, substance_amount())
-	return
-
 def _distribute_helpers():
 
 	n = max_drones()
@@ -267,7 +262,7 @@ def _leader_task(point: tuple[int, int]):
 	while True:
 		util_traversal.move_to(point)
 		do_a_flip()
-		_build_maze()
+		util_maze.build_maze(get_world_size())
 		solve_maze()
 		harvest()
 	return
