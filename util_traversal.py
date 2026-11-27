@@ -70,7 +70,7 @@ def go_home():
 	move_to((0, 0))
 	return
 
-def move_to(target):
+def move_to(target: tuple[int, int]):
 	size = get_world_size()
 	x0, y0 = get_pos_x(), get_pos_y()
 	x1, y1 = target
@@ -95,25 +95,16 @@ def move_to(target):
 # Multi Farming
 
 # All Cells multi-farm
-def all_cells_multi(task: Callable) -> None:
-
+def all_cells_multi(f):
+	def row():
+		for _ in range(get_world_size()-1):
+			f()
+			move(East)
+		f()
 	for _ in range(get_world_size()):
-		spawn_drone(_process_row, task)
+		if not spawn_drone(row):
+			row()
 		move(North)
-
-	# _process_row(task)
-	# move(North)
-	util_wait.wait_till_im_last()
-
-	return
-
-def _process_row(task: Callable):
-
-	for _ in range(get_world_size()):
-		task()
-		move(East)
-
-	return
 
 def for_each_row_multi(task: Callable, args) -> None:
 
@@ -152,11 +143,33 @@ def get_even_distributed_points(count: int) -> list[tuple[int, int]]:
 	elif (count == 25):
 		return _distribute_25()
 	elif (count == 32):
-		return _distribute_32_size_8()
+		if (get_world_size() == 8):
+			return _distribute_32_size_8()
+		else:
+			return _distribute_32_big()
 	else:
 		message = "_even_distributed_points: count of " + str(count) + " Not implimented!"
 		util_exceptions.throw(message)
 		return None #type: ignore
+
+def get_divided_box_corner_points(count: int) -> list[tuple[int, int]]:
+
+	points: list[tuple[int, int]] = []
+
+	width = get_world_size()
+	n = max_drones()
+
+	x0 = 0
+	x1 = width // 2
+
+	num_rows = n // 2
+	box_height = width // num_rows
+
+	for y in range(num_rows):
+		points.append((x0, y * box_height))
+		points.append((x1, y * box_height))
+
+	return points
 
 def _distribute_8() -> list[tuple[int, int]]:
 
