@@ -97,12 +97,12 @@ def move_to(target):
 # All Cells multi-farm
 def all_cells_multi(task: Callable) -> None:
 
-	for _ in range(max_drones() - 1):
+	for _ in range(get_world_size()):
 		spawn_drone(_process_row, task)
 		move(North)
 
-	_process_row(task)
-	move(North)
+	# _process_row(task)
+	# move(North)
 	util_wait.wait_till_im_last()
 
 	return

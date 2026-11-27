@@ -28,6 +28,13 @@ def wait_until(predicate: Callable):
 		continue
 	return
 
+def wait_ticks(ticks: int):
+	start_ticks = get_tick_count()
+	diff = 0
+
+	while diff < ticks:
+		diff = get_tick_count() - start_ticks
+
 def harvest_when_ready():
 	while True:
 		if can_harvest():

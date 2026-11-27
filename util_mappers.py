@@ -5,8 +5,8 @@ import multi_carrots
 import multi_pumpkins
 import multi_cactus
 import multi_weird
-import multi_gold_1
 import multi_gold_2
+import single_bone
 
 def item_to_entity(item: Item) -> Entity:
 
@@ -21,6 +21,7 @@ def item_to_entity(item: Item) -> Entity:
 		Items.Pumpkin:Entities.Pumpkin,
 		Items.Cactus:Entities.Cactus,
 		Items.Power:Entities.Sunflower,
+		Items.Bone:Entities.Apple
 	}
 
 	return map_dict[item]
@@ -50,7 +51,8 @@ def item_to_routine(item: Item) -> Callable:
 		Items.Pumpkin:multi_pumpkins.run_to_target,
 		Items.Cactus:multi_cactus.run_to_target,
 		Items.Weird_Substance:multi_weird.run_to_target,
-		Items.Gold:multi_gold_2.run_to_target
+		Items.Gold:multi_gold_2.run_to_target,
+		Items.Bone:single_bone.run_to_target
 	}
 
 	return map_dict[item]

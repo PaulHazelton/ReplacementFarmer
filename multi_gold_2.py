@@ -32,6 +32,7 @@ def _cycle(target: int):
 
 	_distribute_helpers(target)
 
+	set_world_size(0) # type: ignore
 	clear()
 
 	return
@@ -58,6 +59,8 @@ def _leader_task(point: tuple[int, int], target: int):
 
 	while not _is_complete(target):
 
+		# When building a maze, we may need to wait for a drone to get back into position
+		util_wait.wait_ticks(250)
 		util_maze.build_maze(get_world_size())
 		
 		while util_maze.in_a_maze():
@@ -71,9 +74,6 @@ def _leader_task(point: tuple[int, int], target: int):
 					if (util_maze.am_i_preferred(opp)):
 						util_maze.collect_treasure(get_world_size())
 					move(opp)
-
-		# util_maze.solve_maze()
-		# _collect_treasure()
 	
 	clear()
 

@@ -7,7 +7,7 @@ def get_target(item: Item, base: int) -> int:
 		Items.Carrot:base,
 		Items.Pumpkin:base,
 		Items.Cactus:base,
-		Items.Weird_Substance:base,
+		Items.Weird_Substance:100000,
 		Items.Gold:base
 	}
 
