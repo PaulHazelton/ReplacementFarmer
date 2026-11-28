@@ -97,7 +97,20 @@ def _seek_apples(initial_apple_pos: tuple[int, int]):
 
 		_move_to_next_apple(apple_pos)
 
+		if not util_snake.at_apple(apple_pos):
+			util_exceptions.throw("AHH!!!")
+
 		apple_pos = measure() # type: ignore
+
+		quick_print("Apple pos:", apple_pos)
+
+		if (apple_pos == None):
+			util_exceptions.throw("AHHH!!")
+
+		# Move past the apple to collect it
+		_zig()
+
+		print("BITE!")
 
 		snake_length += 1
 
@@ -109,13 +122,39 @@ def _seek_apples(initial_apple_pos: tuple[int, int]):
 	return
 
 def _move_to_next_apple(apple_pos: tuple[int, int]):
-	
-	pos = util_snake.get_pos()
 
-	while not util_snake.points_are_equal(pos, apple_pos):
+	# I think this only matters in the rare case that the apple moved directly infront of the snake's path
+	if util_snake.at_apple(apple_pos):
+		return
+	
+	end = get_world_size() - 1
+
+	# Go until we're at a decision_node
+	while get_pos_y() != end:
+		if not _zig():
+			return
+
+		# We may find an apple on the way to next decision_node
+		if util_snake.at_apple(apple_pos):
+			return
+
+	# Move right until apple (or 1 before)
+	apple_x, _ = apple_pos
+	target_x: int = apple_x
+
+	# We go down on odds, up on evens. Apple will be below us, so if it's in an even, we go down just before
+	if (apple_x % 2 == 0):
+		target_x -= 1
+
+	# Move right to target (if it's behind us, we just skip to normal zig)
+	while get_pos_x() < target_x:
+		if not move(East):
+			return
+		
+	# Normal zig algorithm until apple found
+	while not util_snake.at_apple(apple_pos):
 		if not _zig():
 			break
-		pos = util_snake.get_pos()
 	
 	return
 

@@ -45,7 +45,10 @@ def zig_zag() -> bool:
 
 	return True
 
-def points_are_equal(a: tuple[int, int], b: tuple[int, int]) -> bool:
+def at_apple(apple_pos):
+	return _points_are_equal(get_pos(), apple_pos)
+
+def _points_are_equal(a: tuple[int, int], b: tuple[int, int]) -> bool:
 	
 	x1, y1 = a
 	x2, y2 = b
