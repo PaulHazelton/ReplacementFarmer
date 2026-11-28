@@ -98,19 +98,12 @@ def _seek_apples(initial_apple_pos: tuple[int, int]):
 		_move_to_next_apple(apple_pos)
 
 		if not util_snake.at_apple(apple_pos):
-			util_exceptions.throw("AHH!!!")
+			util_exceptions.throw("_move_to_next_apple missed an apple")
 
 		apple_pos = measure() # type: ignore
 
-		quick_print("Apple pos:", apple_pos)
-
-		if (apple_pos == None):
-			util_exceptions.throw("AHHH!!")
-
 		# Move past the apple to collect it
 		_zig()
-
-		print("BITE!")
 
 		snake_length += 1
 
