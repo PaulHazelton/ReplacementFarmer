@@ -45,7 +45,7 @@ def _run(target: int):
 	def _setup():
 
 		clear()
-		set_world_size(8)
+		set_world_size(12)
 
 		# Till everything
 		util_traversal.all_cells_multi(till)
@@ -89,7 +89,9 @@ def _cycle():
 def _seek_apples(initial_apple_pos: tuple[int, int]):
 
 	snake_length: int = 1
-	threshold_length: int = 20
+	area = get_world_size()
+	area = area * area
+	threshold_length: int = area // 3
 
 	apple_pos: tuple[int, int] = initial_apple_pos
 
@@ -102,12 +104,14 @@ def _seek_apples(initial_apple_pos: tuple[int, int]):
 
 		apple_pos = measure() # type: ignore
 
+		# print("BITE!")
+
 		# Move past the apple to collect it
 		_zig()
 
 		snake_length += 1
 
-	print("LENGTH!")
+	# print("LENGTH!")
 
 	while _zig():
 		continue
@@ -132,22 +136,30 @@ def _move_to_next_apple(apple_pos: tuple[int, int]):
 			return
 
 	# Move right until apple (or 1 before)
-	apple_x, _ = apple_pos
+	apple_x, apple_y = apple_pos
 	target_x: int = apple_x
 
 	# We go down on odds, up on evens. Apple will be below us, so if it's in an even, we go down just before
 	if (apple_x % 2 == 0):
 		target_x -= 1
 
+	# If target is behind us, go around quick
+	if (get_pos_x() > target_x or apple_y == 0):
+		# print("Run home!")
+		target_x = end
+
 	# Move right to target (if it's behind us, we just skip to normal zig)
 	while get_pos_x() < target_x:
 		if not move(East):
 			return
 		
-	# Normal zig algorithm until apple found
+	# Normal zig algorithm until apple found or back to decision node
 	while not util_snake.at_apple(apple_pos):
 		if not _zig():
 			break
+		if get_pos_y() == end:
+			_move_to_next_apple(apple_pos)
+			return
 	
 	return
 
