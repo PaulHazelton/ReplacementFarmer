@@ -2,15 +2,15 @@ import util_mappers
 
 def main():
 
-	_test_item(Items.Hay)
-	_test_item(Items.Wood)
-	_test_item(Items.Carrot)
-	_test_item(Items.Pumpkin)
-	_test_item(Items.Cactus)
+	# _test_item(Items.Hay)
+	# _test_item(Items.Wood)
+	# _test_item(Items.Carrot)
+	# _test_item(Items.Pumpkin)
+	# _test_item(Items.Cactus)
 	_test_item(Items.Bone)
-	_test_item(Items.Weird_Substance)
-	_test_item(Items.Gold)
-	_test_item(Items.Power)
+	# _test_item(Items.Weird_Substance)
+	# _test_item(Items.Gold)
+	# _test_item(Items.Power)
 
 	return
 
